@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_payment_recipient"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view_payment_recipient_separation"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/gray_cccccc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    
+    <TextView
+        android:id="@+id/text_payment_recipient_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/noto_sans"
+        android:letterSpacing="0.15"
+        android:textColor="@color/black_3f3a3a"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/recipient_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_payment_recipient_separation" />
+
+    <EditText
+        android:id="@+id/edit_payment_recipient_name"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_payment_editor"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/recipient_name"
+        android:textColorHint="@color/gray_646464"
+        android:textColor="@color/black_3f3a3a"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:theme="@style/PaymentColorTheme"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/edit_payment_recipient_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_payment_recipient_title" />
+
+    <EditText
+        android:id="@+id/edit_payment_recipient_email"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_payment_editor"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/recipient_email"
+        android:textColorHint="@color/gray_646464"
+        android:textColor="@color/black_3f3a3a"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:theme="@style/PaymentColorTheme"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/edit_payment_recipient_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_payment_recipient_name" />
+
+    <EditText
+        android:id="@+id/edit_payment_recipient_phone"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_payment_editor"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/recipient_phone"
+        android:textColorHint="@color/gray_646464"
+        android:textColor="@color/black_3f3a3a"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:theme="@style/PaymentColorTheme"
+        android:inputType="phone"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/edit_payment_recipient_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_payment_recipient_email" />
+
+    <EditText
+        android:id="@+id/edit_payment_recipient_address"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_payment_editor"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/recipient_address"
+        android:textColorHint="@color/gray_646464"
+        android:textColor="@color/black_3f3a3a"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        android:nextFocusForward="@+id/form_payment_tpd"
+        android:theme="@style/PaymentColorTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_payment_recipient_phone" />
+
+    <TextView
+        android:id="@+id/text_payment_shipping_time_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="42dp"
+        android:fontFamily="@font/noto_sans"
+        android:letterSpacing="0.15"
+        android:textColor="@color/gray_646464"
+        android:textSize="14sp"
+        android:text="@string/shipping_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_payment_recipient_address" />
+
+    <RadioGroup
+        android:id="@+id/radios_payment_shipping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
+        android:theme="@style/PaymentColorTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_payment_shipping_time_title"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <RadioButton
+            android:id="@+id/radio_shipping_morning"
+            android:text="@string/shipping_morning"
+            android:tag="@string/morning"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/radio_shipping_afternoon"
+            android:text="@string/shipping_afternoon"
+            android:tag="@string/afternoon"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/radio_shipping_anytime"
+            android:text="@string/shipping_anytime"
+            android:tag="@string/anytime"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_catalog_grid"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/image_catalog_main"
+        android:layout_width="@dimen/width_catalog_item"
+        android:layout_height="@dimen/height_catalog_item"
+        android:background="@drawable/ic_placeholder"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_placeholder" />
+
+    <TextView
+        android:id="@+id/text_catalog_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/noto_sans"
+        android:letterSpacing="0.15"
+        android:lines="2"
+        android:textColor="@color/black_3f3a3a"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_catalog_main"
+        tools:text="Uniqlo 特級超輕羽絨外套" />
+
+    <TextView
+        android:id="@+id/text_catalog_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/noto_sans"
+        android:letterSpacing="0.15"
+        android:lines="1"
+        android:textColor="@color/gray_646464"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/text_catalog_title"
+        app:layout_constraintStart_toStartOf="@+id/text_catalog_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_catalog_title"
+        tools:text="NT$9999" />
+
+</android.support.constraint.ConstraintLayout>
