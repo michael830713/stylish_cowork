@@ -288,7 +288,8 @@ public class CartAdapter extends RecyclerView.Adapter {
 
     public void deleteData(int position) {
 
-        notifyItemRemoved(position);
         mCartProducts.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 }

@@ -30,7 +30,6 @@ public class CartPresenter implements CartContract.Presenter {
         mCartView.setPresenter(this);
     }
 
-
     @Override
     public void result(int requestCode, int resultCode) {}
 
