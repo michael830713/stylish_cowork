@@ -1,7 +1,11 @@
 package app.waynechen.stylish.detail;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 public class DetailGalleryAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> mImages;
+    private Context mContext;
 
     public DetailGalleryAdapter(ArrayList<String> images) {
         mImages = images;
@@ -26,7 +31,7 @@ public class DetailGalleryAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        mContext = parent.getContext();
         return new GalleryViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_detail_gallery, parent, false));
     }
@@ -42,6 +47,12 @@ public class DetailGalleryAdapter extends RecyclerView.Adapter {
                         ((GalleryViewHolder) holder).getImageGallery(),
                         mImages.get(position % mImages.size())); // Real position: position % mImages.size()
 
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+                ((GalleryViewHolder) holder).getImageGallery().setLayoutParams(new ConstraintLayout
+                        .LayoutParams(displayMetrics.widthPixels,
+                        mContext.getResources().getDimensionPixelSize(R.dimen.height_detail_gallery)));
             }
         }
     }

@@ -65,8 +65,6 @@ public interface MainContract {
 
         void showToastUi(String message);
 
-        void finish();
-
         void hideToolbarUi();
 
         void showToolbarUi();

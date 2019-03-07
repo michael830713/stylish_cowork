@@ -224,7 +224,6 @@ public class PaymentAdapter extends RecyclerView.Adapter {
         holder.tpdCard = TPDCard.setup(holder.getTpdForm())
                             .onSuccessCallback(tpdTokenSuccessCallback)
                                 .onFailureCallback(tpdTokenFailureCallback);
-
     }
 
     public class TitleViewHolder extends RecyclerView.ViewHolder {

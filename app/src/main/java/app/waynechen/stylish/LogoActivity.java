@@ -25,7 +25,8 @@ public class LogoActivity extends BaseActivivty {
 
         setContentView(R.layout.activity_logo);
 
-        mImageLogo = findViewById(R.id.image_logo);
+
+
 
         new Handler().postDelayed(() -> {
 
@@ -80,6 +81,6 @@ public class LogoActivity extends BaseActivivty {
         animationSet.addAnimation(scaleAnimation);
         animationSet.setFillAfter(true);
 
-        mImageLogo.startAnimation(animationSet);
+        findViewById(R.id.image_logo).startAnimation(animationSet);
     }
 }
