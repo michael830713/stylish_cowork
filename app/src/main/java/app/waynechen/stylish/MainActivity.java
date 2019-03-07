@@ -244,8 +244,11 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
 
             case R.id.navigation_profile:
 
-                mPresenter.updateToolbar(getResources().getString(R.string.profile));
-                return mPresenter.openProfile();
+                if (mPresenter.openProfile()) {
+                    mPresenter.updateToolbar(getResources().getString(R.string.profile));
+                    return true;
+                }
+                return false;
             default:
                 return false;
         }
