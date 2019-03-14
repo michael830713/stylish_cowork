@@ -61,6 +61,8 @@ public interface MainContract {
 
         void switchProfileUiInitiative();
 
+        void switchHotsUiInitiative();
+
         void showMessageDialogUi(@MessageDialog.MessageType int type);
 
         void showToastUi(String message);
@@ -98,6 +100,8 @@ public interface MainContract {
         void openPayment();
 
         void switchToProfileByBottomNavigation();
+
+        void switchToHotsByBottomNavigation();
 
         CatalogItemFragment findWomen();
 

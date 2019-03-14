@@ -26,7 +26,7 @@ public class CheckOutSuccessPresenter implements CheckOutSuccessContract.Present
     public void showToolbarAndBottomNavigation() {}
 
     @Override
-    public void openHots() {}
+    public void onCheckOutSuccess() {}
 
     @Override
     public void start() {}

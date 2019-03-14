@@ -51,6 +51,6 @@ public class CheckOutSuccessDialog extends AppCompatDialogFragment implements Ch
     public void onDestroy() {
         super.onDestroy();
         mPresenter.showToolbarAndBottomNavigation();
-        mPresenter.openHots();
+        mPresenter.onCheckOutSuccess();
     }
 }

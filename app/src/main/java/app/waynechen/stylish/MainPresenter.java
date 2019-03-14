@@ -385,6 +385,11 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
+    public void onCheckOutSuccess() {
+        switchToHotsByBottomNavigation();
+    }
+
+    @Override
     public void finishDetail() {
         mMainView.finishDetailUi();
     }
@@ -614,6 +619,11 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     @Override
     public void switchToProfileByBottomNavigation() {
         mMainView.switchProfileUiInitiative();
+    }
+
+    @Override
+    public void switchToHotsByBottomNavigation() {
+        mMainView.switchHotsUiInitiative();
     }
 
 

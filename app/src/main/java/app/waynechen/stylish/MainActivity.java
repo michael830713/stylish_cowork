@@ -377,6 +377,11 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
     }
 
     @Override
+    public void switchHotsUiInitiative() {
+        mBottomNavigation.setSelectedItemId(R.id.navigation_home);
+    }
+
+    @Override
     public void openLoginUi(int loginFrom) {
 
         if (mLoginDialog == null) {

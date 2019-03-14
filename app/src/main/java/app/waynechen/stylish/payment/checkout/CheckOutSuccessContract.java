@@ -38,6 +38,6 @@ public interface CheckOutSuccessContract {
 
         void showToolbarAndBottomNavigation();
 
-        void openHots();
+        void onCheckOutSuccess();
     }
 }
