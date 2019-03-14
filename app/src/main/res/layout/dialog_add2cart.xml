@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,7 +27,7 @@
             android:maxLines="2"
             android:textColor="@color/black_3f3a3a"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/button_login_close"
+            app:layout_constraintEnd_toStartOf="@+id/button_add2cart_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Uniqlo 超輕羽絨外套" />
@@ -128,6 +129,7 @@
             android:text="@string/select_amount"
             android:textColor="@color/gray_646464"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_add2cart_amount_editor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_add2cart_size_selector" />
 
@@ -135,15 +137,14 @@
             android:id="@+id/text_add2cart_current_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:textColor="@color/gray_646464"
-            android:textSize="14sp"
             android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@+id/text_add2cart_select_amount"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_add2cart_size_selector" />
+            app:layout_constraintBottom_toBottomOf="@+id/text_add2cart_select_amount" />
 
         <TextView
             android:id="@+id/text_add2cart_stock_not_enough"
@@ -165,20 +166,20 @@
             android:layout_width="@dimen/size_add2cart_select"
             android:layout_height="@dimen/size_add2cart_select"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:background="@drawable/ic_sub"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_add2cart_amount_editor"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_amount" />
+            app:layout_constraintTop_toTopOf="@+id/edit_add2cart_amount_editor" />
 
         <ImageButton
             android:id="@+id/button_add2cart_increase"
             android:layout_width="@dimen/size_add2cart_select"
             android:layout_height="@dimen/size_add2cart_select"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_add2cart_amount_editor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_amount" />
+            app:layout_constraintTop_toTopOf="@+id/edit_add2cart_amount_editor" />
 
         <EditText
             android:id="@+id/edit_add2cart_amount_editor"
