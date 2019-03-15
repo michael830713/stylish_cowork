@@ -16,6 +16,10 @@
 
 package app.waynechen.stylish.profile;
 
+import android.net.Uri;
+
+import java.net.URI;
+
 import app.waynechen.stylish.BasePresenter;
 import app.waynechen.stylish.BaseView;
 import app.waynechen.stylish.data.User;
@@ -34,6 +38,8 @@ public interface ProfileContract {
         boolean isActive();
 
         void showLoginDialogUi();
+
+        void showImagePicker(Uri imageUri);
     }
 
     interface Presenter extends BasePresenter {
@@ -45,6 +51,8 @@ public interface ProfileContract {
         void checkProfileUserData();
 
         void showLoginDialog(int loginFrom);
+
+        void showGalleryPicker(Uri imageUri);
 
     }
 }

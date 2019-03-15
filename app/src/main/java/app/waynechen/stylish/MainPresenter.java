@@ -19,6 +19,7 @@ package app.waynechen.stylish;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -633,6 +634,11 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
+    public void showGalleryPicker(Uri imageUri) {
+
+    }
+
+    @Override
     public void showAdd2CartDialog(Product product) {
         mMainView.openAdd2CartUi(product);
     }
@@ -692,5 +698,10 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     @Override
     public void onClickDrawerAvatar() {
         UserManager.getInstance().challenge();
+    }
+
+    @Override
+    public void onOpenGallery(Uri imageUri) {
+        mProfilePresenter.showGalleryPicker(imageUri);
     }
 }

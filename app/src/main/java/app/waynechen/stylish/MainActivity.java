@@ -1,8 +1,10 @@
 package app.waynechen.stylish;
 
+import static app.waynechen.stylish.profile.ProfileFragment.PICK_IMAGE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -76,8 +78,14 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            Uri imageUri = data.getData();
+            mPresenter.onOpenGallery(imageUri);
 
-        UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+        } else {
+            UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+
+        }
     }
 
     /**
@@ -440,6 +448,7 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
     public void showBottomNavigationUi() {
         mBottomNavigation.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public void updateCartBadgeUi(int amount) {

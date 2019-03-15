@@ -17,6 +17,7 @@
 package app.waynechen.stylish;
 
 import android.content.Intent;
+import android.net.Uri;
 
 import app.waynechen.stylish.catalog.item.CatalogItemFragment;
 import app.waynechen.stylish.data.Product;
@@ -136,6 +137,8 @@ public interface MainContract {
         void onDrawerOpened();
 
         void onClickDrawerAvatar();
+
+        void onOpenGallery(Uri imageUri);
 
     }
 }

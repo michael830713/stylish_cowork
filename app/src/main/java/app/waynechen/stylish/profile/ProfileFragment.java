@@ -1,11 +1,15 @@
 package app.waynechen.stylish.profile;
 
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +27,7 @@ import app.waynechen.stylish.util.UserManager;
  */
 public class ProfileFragment extends Fragment implements ProfileContract.View {
 
+    public static final int PICK_IMAGE = 100;
     private ProfileContract.Presenter mPresenter;
 
     private ImageView mImageAvatar;
@@ -83,7 +88,13 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
                 UserManager.getInstance().getUser().getPicture());
         mTextName.setText(UserManager.getInstance().getUser().getName());
         mTextInformation.setText(UserManager.getInstance().getUserInfo());
+        mImageAvatar.setOnClickListener(v -> {
+            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            getActivity().startActivityForResult(gallery, PICK_IMAGE);
+
+        });
     }
+
 
     @Override
     public boolean isActive() {
@@ -93,5 +104,11 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     @Override
     public void showLoginDialogUi() {
         mPresenter.showLoginDialog(LoginDialog.FROM_PROFILE);
+    }
+
+    @Override
+    public void showImagePicker(Uri imageUri) {
+        Log.d(TAG, "showImagePicker: "+imageUri);
+        mImageAvatar.setImageURI(imageUri);
     }
 }

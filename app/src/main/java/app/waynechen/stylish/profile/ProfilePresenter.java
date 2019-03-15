@@ -2,6 +2,7 @@ package app.waynechen.stylish.profile;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import app.waynechen.stylish.data.User;
@@ -61,4 +62,9 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void showLoginDialog(int loginFrom) {}
+
+    @Override
+    public void showGalleryPicker(Uri imageUri) {
+        mProfileView.showImagePicker(imageUri);
+    }
 }
