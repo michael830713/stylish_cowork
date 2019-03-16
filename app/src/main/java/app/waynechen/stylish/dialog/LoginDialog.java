@@ -24,16 +24,17 @@ import app.waynechen.stylish.util.Util;
 public class LoginDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
     public static final int FROM_EVERYWHERE = 0x40;
-    public static final int FROM_PROFILE    = 0x41;
-    public static final int FROM_PAYMENT    = 0x42;
-    public static final int FROM_DRAWER     = 0x43;
+    public static final int FROM_PROFILE = 0x41;
+    public static final int FROM_PAYMENT = 0x42;
+    public static final int FROM_DRAWER = 0x43;
 
     private boolean mIsLoading = false;
     MainContract.Presenter mMainPresenter;
     private ConstraintLayout mLayout;
     private int mLoginFrom = FROM_EVERYWHERE;
 
-    public LoginDialog() {}
+    public LoginDialog() {
+    }
 
     public void setMainPresenter(MainContract.Presenter mainPresenter) {
         mMainPresenter = mainPresenter;

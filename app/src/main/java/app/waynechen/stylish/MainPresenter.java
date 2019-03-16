@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import app.waynechen.stylish.cart.CartContract;
 import app.waynechen.stylish.cart.CartPresenter;
@@ -50,7 +49,6 @@ import app.waynechen.stylish.payment.checkout.CheckOutSuccessContract;
 import app.waynechen.stylish.payment.checkout.CheckOutSuccessPresenter;
 import app.waynechen.stylish.profile.ProfileContract;
 import app.waynechen.stylish.profile.ProfilePresenter;
-import app.waynechen.stylish.util.Constants;
 import app.waynechen.stylish.util.UserManager;
 
 /**
@@ -634,7 +632,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void showGalleryPicker(Uri imageUri) {
+    public void setGalleryImagePicked(Uri imageUri) {
 
     }
 
@@ -701,7 +699,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void onOpenGallery(Uri imageUri) {
-        mProfilePresenter.showGalleryPicker(imageUri);
+    public void onGalleryImagePicked(Uri imageUri) {
+        mProfilePresenter.setGalleryImagePicked(imageUri);
     }
 }

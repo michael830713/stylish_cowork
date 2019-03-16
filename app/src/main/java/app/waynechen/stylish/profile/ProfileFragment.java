@@ -107,8 +107,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     }
 
     @Override
-    public void showImagePicker(Uri imageUri) {
-        Log.d(TAG, "showImagePicker: "+imageUri);
+    public void showImagePickedFromGallery(Uri imageUri) {
+        Log.d(TAG, "showImagePickedFromGallery: "+imageUri);
         mImageAvatar.setImageURI(imageUri);
     }
 }

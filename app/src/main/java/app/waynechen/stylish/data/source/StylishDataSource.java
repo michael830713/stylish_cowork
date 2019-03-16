@@ -60,6 +60,8 @@ public interface StylishDataSource {
 
     void postUserSignIn(@NonNull String token, @NonNull UserSignInCallback callback);
 
+    void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback);
+
     void getUserProfile(@NonNull String token, @NonNull GetUserProfileCallback callback);
 
     void postOrderCheckOutCallback(@NonNull String token, @NonNull CheckOutInfo checkOutInfo,

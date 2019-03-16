@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             Uri imageUri = data.getData();
-            mPresenter.onOpenGallery(imageUri);
+            mPresenter.onGalleryImagePicked(imageUri);
 
         } else {
             UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);

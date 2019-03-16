@@ -46,7 +46,9 @@ public class StylishApiHelper {
     private static final String PAGING_PATH = "?paging=";
     private static final String USER_PATH = "/user";
     private static final String SIGNIN_PATH = "/signin";
+    private static final String SIGNUP_PATH = "/signup";
     private static final String USER_SIGNIN_PATH = USER_PATH + SIGNIN_PATH;
+    private static final String USER_SIGNUP_PATH = USER_PATH + SIGNUP_PATH;
     private static final String PROFILE_PATH = "/profile";
     private static final String USER_PROFILE_PATH = USER_PATH + PROFILE_PATH;
     private static final String ORDER_PATH = "/order";
@@ -59,6 +61,7 @@ public class StylishApiHelper {
     private static final String GET_PRODUCTS_MEN_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_MEN_PATH;
     private static final String GET_PRODUCTS_ACCESSORIES_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_ACCESSORIES_PATH;
     private static final String POST_USER_SIGNIN_URL = HOST + API_PATH + API_VERSION_PATH + USER_SIGNIN_PATH;
+    private static final String POST_USER_SIGNUP_URL = HOST + API_PATH + API_VERSION_PATH + USER_SIGNUP_PATH;
     private static final String GET_USER_PROFILE_URL = HOST + API_PATH + API_VERSION_PATH + USER_PROFILE_PATH;
     private static final String POST_ORDER_CHECKOUT_URL = HOST + API_PATH + API_VERSION_PATH + ORDER_CHECKOUT_PATH;
 
@@ -67,6 +70,9 @@ public class StylishApiHelper {
     private static final String APPLICATION_JSON = "application/json";
     private static final String PROVIDER = "provider";
     private static final String FACEBOOK = "facebook";
+    private static final String NAME = "name";
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
     private static final String ACCESS_TOKEN = "access_token";
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER_ = "Bearer ";
@@ -152,6 +158,28 @@ public class StylishApiHelper {
         try {
             return StylishParser.parseUserSignIn(new StylishClient()
                     .post(POST_USER_SIGNIN_URL, body, headers));
+        } catch (StylishInvalidTokenException e) {
+            throw new StylishInvalidTokenException(e.getMessage());
+        } catch (StylishException e) {
+            throw new StylishException(e.getMessage());
+        }
+    }
+
+    public static UserSignIn postUserSignUp(@NonNull String name, String email, String password) throws IOException, StylishException {
+
+        HashMap headers = new HashMap();
+        headers.put(CONTENT_TYPE, APPLICATION_JSON);
+
+        Map<String, String> bodyMap = new HashMap<>();
+        bodyMap.put(NAME, name);
+        bodyMap.put(EMAIL, email);
+        bodyMap.put(PASSWORD, password);
+
+        String body = new JSONObject(bodyMap).toString();
+
+        try {
+            return StylishParser.parseUserSignIn(new StylishClient()
+                    .post(POST_USER_SIGNUP_URL, body, headers));
         } catch (StylishInvalidTokenException e) {
             throw new StylishInvalidTokenException(e.getMessage());
         } catch (StylishException e) {

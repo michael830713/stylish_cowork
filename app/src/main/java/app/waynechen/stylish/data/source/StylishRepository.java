@@ -81,6 +81,8 @@ public class StylishRepository implements StylishDataSource {
         mStylishRemoteDataSource.postUserSignIn(token, new UserSignInCallback() {
             @Override
             public void onCompleted(UserSignIn bean) {
+
+                // todo something
                 callback.onCompleted(bean);
             }
 
@@ -89,6 +91,11 @@ public class StylishRepository implements StylishDataSource {
                 callback.onError(errorMessage);
             }
         });
+    }
+
+    @Override
+    public void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback) {
+
     }
 
     @Override

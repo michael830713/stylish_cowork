@@ -39,7 +39,7 @@ public interface ProfileContract {
 
         void showLoginDialogUi();
 
-        void showImagePicker(Uri imageUri);
+        void showImagePickedFromGallery(Uri imageUri);
     }
 
     interface Presenter extends BasePresenter {
@@ -52,7 +52,7 @@ public interface ProfileContract {
 
         void showLoginDialog(int loginFrom);
 
-        void showGalleryPicker(Uri imageUri);
+        void setGalleryImagePicked(Uri imageUri);
 
     }
 }

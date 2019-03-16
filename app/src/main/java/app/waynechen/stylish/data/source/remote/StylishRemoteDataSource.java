@@ -153,6 +153,11 @@ public class StylishRemoteDataSource implements StylishDataSource {
     }
 
     @Override
+    public void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback) {
+
+    }
+
+    @Override
     public void getUserProfile(@NonNull String token, @NonNull GetUserProfileCallback callback) {
 
         new GetUserProfileTask(token, callback).execute();

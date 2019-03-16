@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_login"
         android:layout_width="0dp"
-        android:layout_height="@dimen/height_login"
+        android:layout_height="300dp"
         android:background="@drawable/bg_dialog_corner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,6 +88,15 @@
             android:background="@drawable/button_dialog_close_ripple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Signup"
+            app:layout_constraintStart_toStartOf="@+id/text_login_description"
+            app:layout_constraintTop_toBottomOf="@+id/text_login_description" />
 
     </android.support.constraint.ConstraintLayout>
 
