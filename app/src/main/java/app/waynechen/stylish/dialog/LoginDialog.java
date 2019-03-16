@@ -18,6 +18,8 @@ import app.waynechen.stylish.util.Constants;
 import app.waynechen.stylish.util.UserManager;
 import app.waynechen.stylish.util.Util;
 
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
+
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
@@ -54,6 +56,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         view.setOnClickListener(this);
 
         view.findViewById(R.id.button_login_facebook).setOnClickListener(this);
+        view.findViewById(R.id.buttonSignUp).setOnClickListener(this);
         view.findViewById(R.id.button_login_close).setOnClickListener(this);
         Util.setTouchDelegate(view.findViewById(R.id.button_login_close));
 
@@ -100,6 +103,36 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                     }
                 });
             }
+        } else if (v.getId() == R.id.buttonSignUp) {
+            UserManager.getInstance().signUpStylish("Mike", "mikeee@gmail.com", "88888888", new UserManager.LoadCallback() {
+                @Override
+                public void onSuccess() {
+
+                    setLoading(false);
+
+                    dismiss();
+
+                    if (mMainPresenter != null) {
+                        mMainPresenter.showLoginSuccessDialog();
+                        mMainPresenter.onLoginSuccess(getLoginFrom());
+                    }
+                }
+
+
+                @Override
+                public void onFail(String errorMessage) {
+                    Log.d(TAG, "onFail: " + errorMessage);
+                    setLoading(false);
+                }
+
+                @Override
+                public void onInvalidToken(String errorMessage) {
+                    Log.d(TAG, "onInvalidToken: " + errorMessage);
+                    setLoading(false);
+                }
+            });
+
+
         } else {
 
             dismiss();

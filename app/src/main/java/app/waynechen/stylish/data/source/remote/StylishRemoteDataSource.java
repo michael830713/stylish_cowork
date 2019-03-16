@@ -17,6 +17,7 @@ import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 import app.waynechen.stylish.data.source.task.GetUserProfileTask;
 import app.waynechen.stylish.data.source.task.UserSignInTask;
+import app.waynechen.stylish.data.source.task.UserSignUpTask;
 import app.waynechen.stylish.util.Constants;
 
 import java.io.IOException;
@@ -26,9 +27,9 @@ import java.io.IOException;
  */
 public class StylishRemoteDataSource implements StylishDataSource {
 
-    public static final int DEFAULT       = 0x06;
-    public static final int SUCCESS       = 0x07;
-    public static final int ERROR         = 0x08;
+    public static final int DEFAULT = 0x06;
+    public static final int SUCCESS = 0x07;
+    public static final int ERROR = 0x08;
     public static final int INVALID_TOKEN = 0x09;
 
     private static StylishRemoteDataSource INSTANCE;
@@ -40,7 +41,8 @@ public class StylishRemoteDataSource implements StylishDataSource {
         return INSTANCE;
     }
 
-    private StylishRemoteDataSource() {}
+    private StylishRemoteDataSource() {
+    }
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -154,7 +156,7 @@ public class StylishRemoteDataSource implements StylishDataSource {
 
     @Override
     public void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback) {
-
+        new UserSignUpTask(name, email, password, callback).execute();
     }
 
     @Override

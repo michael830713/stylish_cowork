@@ -34,7 +34,7 @@ public class UserManager {
     private CallbackManager mFbCallbackManager;
     private long mLastChallengeTime;
     private int mChallengeCount;
-    private static final int CHALLENGE_LIMIT = 23;
+    private static final int CHALLENGE_LIMIT = 3;
 
     private static class UserManagerHolder {
         private static final UserManager INSTANCE = new UserManager();
@@ -52,6 +52,7 @@ public class UserManager {
 
     /**
      * Login Stylish by Facebook: Step 1. Register FB Login Callback
+     *
      * @param context
      * @param loadCallback
      */
@@ -97,10 +98,15 @@ public class UserManager {
                 (Activity) context, Arrays.asList("email"));
     }
 
+
+
+
     /**
      * Login Stylish by Facebook: Step 3. Login Stylish
+     *
      * @param token
      */
+
     private void loginStylish(String token, LoadCallback loadCallback) {
         mStylishRepository.postUserSignIn(token, new StylishDataSource.UserSignInCallback() {
             @Override
@@ -117,6 +123,27 @@ public class UserManager {
             @Override
             public void onError(String errorMessage) {
 
+                Log.d(Constants.TAG, errorMessage);
+                loadCallback.onFail(errorMessage);
+            }
+        });
+    }
+
+    public void signUpStylish(String name, String email, String password, final LoadCallback loadCallback) {
+
+        mStylishRepository.postUserSignUp(name, email, password, new StylishDataSource.UserSignInCallback() {
+            @Override
+            public void onCompleted(UserSignIn bean) {
+                setUser(bean.getUser());
+
+                Stylish.getAppContext().getSharedPreferences(Constants.USER_DATA, Context.MODE_PRIVATE).edit()
+                        .putString(Constants.USER_TOKEN, bean.getAccessToken())
+                        .apply();
+                loadCallback.onSuccess();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
                 Log.d(Constants.TAG, errorMessage);
                 loadCallback.onFail(errorMessage);
             }
