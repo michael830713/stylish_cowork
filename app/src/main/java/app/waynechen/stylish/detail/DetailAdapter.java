@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import app.waynechen.stylish.R;
@@ -23,8 +24,9 @@ import app.waynechen.stylish.util.Constants;
  */
 public class DetailAdapter extends RecyclerView.Adapter {
 
-    private static final int TYPE_LOADING   = 0;
-    private static final int TYPE_DETAIL     = 0x01;
+    private static final int TYPE_LOADING = 0;
+    private static final int TYPE_DETAIL = 0x01;
+    private boolean flag = false;
 
     private DetailContract.Presenter mPresenter;
 
@@ -48,11 +50,11 @@ public class DetailAdapter extends RecyclerView.Adapter {
         if (holder instanceof DetailViewHolder) {
 
             /* Set gallery */
-                /* Step 1. Setup Circles */
+            /* Step 1. Setup Circles */
             DetailCircleAdapter circleAdapter = new DetailCircleAdapter(mProduct.getImages().size());
             ((DetailViewHolder) holder).getRecyclerCircles()
                     .setLayoutManager(new LinearLayoutManager(
-                         Stylish.getAppContext(), LinearLayoutManager.HORIZONTAL, false));
+                            Stylish.getAppContext(), LinearLayoutManager.HORIZONTAL, false));
             ((DetailViewHolder) holder).getRecyclerCircles().addItemDecoration(new RecyclerView.ItemDecoration() {
                 @Override
                 public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -68,16 +70,16 @@ public class DetailAdapter extends RecyclerView.Adapter {
             });
             ((DetailViewHolder) holder).getRecyclerCircles().setAdapter(circleAdapter);
 
-                /* Step 2. Setup Gallery LayoutManager and LinearSnapHelper */
+            /* Step 2. Setup Gallery LayoutManager and LinearSnapHelper */
             LinearLayoutManager layoutManager = new LinearLayoutManager(
                     Stylish.getAppContext(), LinearLayoutManager.HORIZONTAL, false);
             LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
             linearSnapHelper.attachToRecyclerView(((DetailViewHolder) holder).getRecyclerGallery());
 
             ((DetailViewHolder) holder).getRecyclerGallery().setLayoutManager(layoutManager);
-                /* Step 3. Setup OnScrollChangeListener
-                 * Find SnapView from LayoutManager
-                 * Get Position from SnapView */
+            /* Step 3. Setup OnScrollChangeListener
+             * Find SnapView from LayoutManager
+             * Get Position from SnapView */
             ((DetailViewHolder) holder).getRecyclerGallery().setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -130,12 +132,12 @@ public class DetailAdapter extends RecyclerView.Adapter {
 
             // Set size
             ((DetailViewHolder) holder).getTextSize().setText(
-                    (mProduct.getSizes().size() > 0) 
-                            ? (mProduct.getSizes().size() == 1) 
-                                ? mProduct.getSizes().get(0) 
-                                : Stylish.getAppContext().getString(R.string._dash_,
-                                    mProduct.getSizes().get(0),
-                                    mProduct.getSizes().get(mProduct.getSizes().size() - 1))
+                    (mProduct.getSizes().size() > 0)
+                            ? (mProduct.getSizes().size() == 1)
+                            ? mProduct.getSizes().get(0)
+                            : Stylish.getAppContext().getString(R.string._dash_,
+                            mProduct.getSizes().get(0),
+                            mProduct.getSizes().get(mProduct.getSizes().size() - 1))
                             : "");
 
             // Set Stock
@@ -186,6 +188,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
         private TextView mTextPlace;
         private TextView mTextNote;
         private ImageButton mButtonClose;
+        private ImageView mButtonFavorite;
 
         public DetailViewHolder(View itemView) {
             super(itemView);
@@ -204,6 +207,21 @@ public class DetailAdapter extends RecyclerView.Adapter {
             mTextPlace = itemView.findViewById(R.id.text_detail_place);
             mTextNote = itemView.findViewById(R.id.text_detail_note);
             mButtonClose = itemView.findViewById(R.id.button_detail_close);
+            mButtonFavorite = itemView.findViewById(R.id.imageViewStarred);
+            mButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //use flag to change image
+                    if (!flag) {
+                        mButtonFavorite.setImageResource(R.drawable.favorite_selected);
+                        flag = true;
+                    } else {
+                        mButtonFavorite.setImageResource(R.drawable.favorite);
+                        flag = false;
+                    }
+                }
+            });
 
             mButtonClose.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -265,6 +283,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
         public TextView getTextNote() {
             return mTextNote;
         }
+
     }
 
     public void updateData(Product product) {

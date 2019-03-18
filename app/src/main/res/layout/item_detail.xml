@@ -343,6 +343,6 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_gallery"
         app:layout_constraintEnd_toEndOf="@+id/recycler_detail_gallery"
-        app:srcCompat="@drawable/ic_starred" />
+        app:srcCompat="@drawable/star_selecter" />
 
 </android.support.constraint.ConstraintLayout>
