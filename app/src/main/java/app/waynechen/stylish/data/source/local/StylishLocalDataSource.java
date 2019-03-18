@@ -32,10 +32,15 @@ public class StylishLocalDataSource implements StylishDataSource {
                                @NonNull GetProductListCallback callback) {}
 
     @Override
-    public void postUserSignIn(@NonNull String token, UserSignInCallback callback) {}
+    public void postUserFacebookSignIn(@NonNull String token, UserSignInCallback callback) {}
 
     @Override
     public void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback) {
+
+    }
+
+    @Override
+    public void postUserNativeSignIn(@NonNull String email, @NonNull String password, @NonNull UserSignInCallback callback) {
 
     }
 

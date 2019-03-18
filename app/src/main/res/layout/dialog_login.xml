@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_login"
         android:layout_width="0dp"
-        android:layout_height="417dp"
+        android:layout_height="464dp"
         android:background="@drawable/bg_dialog_corner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,18 +100,18 @@
 
         <EditText
             android:id="@+id/editTextEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="291dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
             app:layout_constraintStart_toStartOf="@+id/text_login_description"
-            app:layout_constraintTop_toBottomOf="@+id/text_login_description" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
         <EditText
             android:id="@+id/editTextPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="291dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
@@ -128,6 +128,17 @@
             android:text="SIGN IN"
             app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
             app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Name for Sign Up"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/text_login_description"
+            app:layout_constraintTop_toBottomOf="@+id/text_login_description" />
 
     </android.support.constraint.ConstraintLayout>
 

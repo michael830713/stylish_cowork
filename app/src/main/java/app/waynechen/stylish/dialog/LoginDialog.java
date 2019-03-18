@@ -42,6 +42,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     private int mLoginFrom = FROM_EVERYWHERE;
     private EditText mEmail;
     private EditText mPassword;
+    private EditText mName;
 
     public LoginDialog() {
     }
@@ -65,9 +66,11 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
         mEmail = view.findViewById(R.id.editTextEmail);
         mPassword = view.findViewById(R.id.editTextPassword);
+        mName = view.findViewById(R.id.editTextName);
 
         view.findViewById(R.id.button_login_facebook).setOnClickListener(this);
         view.findViewById(R.id.buttonSignUp).setOnClickListener(this);
+        view.findViewById(R.id.buttonSignIn).setOnClickListener(this);
         view.findViewById(R.id.button_login_close).setOnClickListener(this);
         Util.setTouchDelegate(view.findViewById(R.id.button_login_close));
 
@@ -88,6 +91,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
             if (!isLoading()) {
                 setLoading(true);
                 UserManager.getInstance().loginStylishByFacebook(getActivity(), new UserManager.LoadCallback() {
+
                     @Override
                     public void onSuccess() {
 
@@ -115,11 +119,94 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                 });
             }
         } else if (v.getId() == R.id.buttonSignUp) {
+
             String email = mEmail.getText().toString();
             String password = mPassword.getText().toString();
+            String name = mName.getText().toString();
 
-            if (isEmail(mEmail) && isSixDigit(mPassword)) {
-                UserManager.getInstance().signUpStylish("Mike", email, password, new UserManager.LoadCallback() {
+//            if (isEmail(mEmail) && isSixDigit(mPassword) && !name.isEmpty()) {
+//                UserManager.getInstance()
+//                        .signUpStylish(name, email, password, new UserManager.LoadCallback() {
+//                            @Override
+//                            public void onSuccess() {
+//
+//                                setLoading(false);
+//
+//                                dismiss();
+//
+//                                if (mMainPresenter != null) {
+//                                    mMainPresenter.showLoginSuccessDialog();
+//                                    mMainPresenter.onLoginSuccess(getLoginFrom());
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFail(String errorMessage) {
+//                                Log.d(TAG, "onFail: " + errorMessage);
+//                                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+//                                setLoading(false);
+//                            }
+//
+//                            @Override
+//                            public void onInvalidToken(String errorMessage) {
+//                                Log.d(TAG, "onInvalidToken: " + errorMessage);
+//                                setLoading(false);
+//                            }
+//                        });
+//
+//            }else
+            if (name.isEmpty()) {
+                Toast.makeText(getActivity(), "Please Enter User Name!", Toast.LENGTH_SHORT).show();
+
+            } else if (!isEmail(mEmail)) {
+                Log.d(TAG, "this is not an email ");
+                Toast.makeText(getActivity(), "this is not an email", Toast.LENGTH_SHORT).show();
+            } else if (!isSixDigit(mPassword)) {
+                Toast.makeText(getActivity(), "Password require more than 6 digits!", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                UserManager.getInstance()
+                        .signUpStylish(name, email, password, new UserManager.LoadCallback() {
+                            @Override
+                            public void onSuccess() {
+
+                                setLoading(false);
+
+                                dismiss();
+
+                                if (mMainPresenter != null) {
+                                    mMainPresenter.showLoginSuccessDialog();
+                                    mMainPresenter.onLoginSuccess(getLoginFrom());
+                                }
+                            }
+
+                            @Override
+                            public void onFail(String errorMessage) {
+                                Log.d(TAG, "onFail: " + errorMessage);
+                                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                                setLoading(false);
+                            }
+
+                            @Override
+                            public void onInvalidToken(String errorMessage) {
+                                Log.d(TAG, "onInvalidToken: " + errorMessage);
+                                setLoading(false);
+                            }
+                        });
+//                Toast.makeText(getActivity(), "Enter Email and password!", Toast.LENGTH_SHORT).show();
+            }
+
+        } else if (v.getId() == R.id.buttonSignIn) {
+            String email = mEmail.getText().toString();
+            String password = mPassword.getText().toString();
+            if (!isEmail(mEmail)) {
+                Toast.makeText(getActivity(), "this is not an email", Toast.LENGTH_SHORT).show();
+
+            } else if (!isSixDigit(mPassword)) {
+                Toast.makeText(getActivity(), "Password require more than 6 digits!", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                UserManager.getInstance().loginStylishNative(email, password, new UserManager.LoadCallback() {
                     @Override
                     public void onSuccess() {
 
@@ -132,7 +219,6 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                             mMainPresenter.onLoginSuccess(getLoginFrom());
                         }
                     }
-
 
                     @Override
                     public void onFail(String errorMessage) {
@@ -147,32 +233,19 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                         setLoading(false);
                     }
                 });
-
-
-            } else if (!isEmail(mEmail)) {
-                Log.d(TAG, "this is not an email ");
-                Toast.makeText(getActivity(), "this is not an email", Toast.LENGTH_SHORT).show();
-            } else if (isEmail(mEmail) && !isSixDigit(mPassword)) {
-                Toast.makeText(getActivity(), "Password require more than 6 digits!", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(getActivity(), "Enter Email and password!", Toast.LENGTH_SHORT).show();
-
             }
-
-
         } else {
 
             dismiss();
         }
     }
 
-    boolean isSixDigit(EditText password) {
-        return password.getText().toString().length() >= 6;
+    public boolean isSixDigit(EditText password) {
+        return password.getText().toString().length() >= 5;
 
     }
 
-    boolean isEmail(EditText text) {
+    public boolean isEmail(EditText text) {
         CharSequence email = text.getText().toString();
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }

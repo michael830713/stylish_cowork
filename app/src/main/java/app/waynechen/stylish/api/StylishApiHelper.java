@@ -62,6 +62,7 @@ public class StylishApiHelper {
     private static final String NIMABACHI_API_VERSION = "1.0";
     private static final String NIMABACHI_API_VERSION_PATH = "/" + NIMABACHI_API_VERSION;
     private static final String NIMABACHI_AVATAR_PATH = "/admin/avatar";
+    private static final String DAVIDADM_HOST = "https://davidadm.com";
     private static final String MARKETING_PATH = "/marketing";
     private static final String HOTS_PATH = "/hots";
     private static final String MARKETING_HOTS_PATH = MARKETING_PATH + HOTS_PATH;
@@ -84,7 +85,6 @@ public class StylishApiHelper {
     private static final String CHECKOUT_PATH = "/checkout";
     private static final String ORDER_CHECKOUT_PATH = ORDER_PATH + CHECKOUT_PATH;
 
-
     private static final String GET_MARKETING_HOTS_URL = HOST + API_PATH + API_VERSION_PATH + MARKETING_HOTS_PATH;
     private static final String GET_PRODUCTS_WOMEN_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_WOMEN_PATH;
     private static final String GET_PRODUCTS_MEN_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_MEN_PATH;
@@ -94,12 +94,15 @@ public class StylishApiHelper {
     private static final String GET_USER_PROFILE_URL = HOST + API_PATH + API_VERSION_PATH + USER_PROFILE_PATH;
     private static final String POST_ORDER_CHECKOUT_URL = HOST + API_PATH + API_VERSION_PATH + ORDER_CHECKOUT_PATH;
     private static final String POST_AVATAR_URL = NIMABACHI_HOST + API_PATH + NIMABACHI_API_VERSION_PATH + NIMABACHI_AVATAR_PATH;
+    private static final String POST_USER_SIGNIN_DAVIDADM_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_SIGNIN_PATH;
+    private static final String POST_USER_SIGNUP_DAVIDADM_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_SIGNUP_PATH;
 
     // Headers
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String PROVIDER = "provider";
     private static final String FACEBOOK = "facebook";
+    private static final String NATIVE = "native";
     private static final String NAME = "name";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
@@ -177,7 +180,7 @@ public class StylishApiHelper {
      * @throws IOException
      * @throws StylishException
      */
-    public static UserSignIn postUserSignIn(@NonNull String token) throws IOException, StylishException {
+    public static UserSignIn postUserSignInWithToken(@NonNull String token) throws IOException, StylishException {
 
         HashMap headers = new HashMap();
         headers.put(CONTENT_TYPE, APPLICATION_JSON);
@@ -190,7 +193,7 @@ public class StylishApiHelper {
 
         try {
             return StylishParser.parseUserSignIn(new StylishClient()
-                    .post(POST_USER_SIGNIN_URL, body, headers));
+                    .post(POST_USER_SIGNIN_DAVIDADM_URL, body, headers));
         } catch (StylishInvalidTokenException e) {
             throw new StylishInvalidTokenException(e.getMessage());
         } catch (StylishException e) {
@@ -212,7 +215,7 @@ public class StylishApiHelper {
 
         try {
             return StylishParser.parseUserSignIn(new StylishClient()
-                    .post(POST_USER_SIGNUP_URL, body, headers));
+                    .post(POST_USER_SIGNUP_DAVIDADM_URL, body, headers));
         } catch (StylishInvalidTokenException e) {
             throw new StylishInvalidTokenException(e.getMessage());
         } catch (StylishException e) {
@@ -221,6 +224,28 @@ public class StylishApiHelper {
         }
     }
 
+    public static UserSignIn postUserSignInNative(@NonNull String email, @NonNull String password) throws IOException, StylishException {
+
+        HashMap headers = new HashMap();
+        headers.put(CONTENT_TYPE, APPLICATION_JSON);
+
+        Map<String, String> bodyMap = new HashMap<>();
+        bodyMap.put(PROVIDER, NATIVE);
+        bodyMap.put(EMAIL, email);
+        bodyMap.put(PASSWORD, password);
+
+        String body = new JSONObject(bodyMap).toString();
+
+        try {
+            return StylishParser.parseUserSignIn(new StylishClient()
+                    .post(POST_USER_SIGNIN_DAVIDADM_URL, body, headers));
+        } catch (StylishInvalidTokenException e) {
+            throw new StylishInvalidTokenException(e.getMessage());
+        } catch (StylishException e) {
+            e.printStackTrace();
+            throw new StylishException(e.getMessage());
+        }
+    }
 
 //    private String getRealPathFromURI(Uri contentUri) {
 //        String[] proj = { MediaStore.Images.Media.DATA };
@@ -248,14 +273,12 @@ public class StylishApiHelper {
 //            final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
             File sourceFile = new File(realPath);
 
-
             Log.d(TAG, "File...::::" + sourceFile + " : " + sourceFile.exists());
 
             final MediaType MEDIA_TYPE = MediaType.parse("image/jpeg");
             Log.d(TAG, "MEDIA_TYPE: " + MEDIA_TYPE);
             System.out.println(new File(realPath).getAbsoluteFile());
 //                    MediaType.parse("image/png") : MediaType.parse("image/jpeg");
-
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -284,7 +307,6 @@ public class StylishApiHelper {
         return null;
 
     }
-
 
     /**
      * GET User Sign In API.

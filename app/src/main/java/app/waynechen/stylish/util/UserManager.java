@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.Toast;
 
 import app.waynechen.stylish.R;
@@ -27,7 +26,6 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
-
 
 /**
  * Created by Wayne Chen on Feb. 2019.
@@ -64,7 +62,9 @@ public class UserManager {
     public void loginStylishByFacebook(Context context, final LoadCallback loadCallback) {
 
         mFbCallbackManager = CallbackManager.Factory.create();
+
         LoginManager.getInstance().registerCallback(mFbCallbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
 
@@ -103,7 +103,6 @@ public class UserManager {
                 (Activity) context, Arrays.asList("email"));
     }
 
-
     /**
      * Login Stylish by Facebook: Step 3. Login Stylish
      *
@@ -111,7 +110,33 @@ public class UserManager {
      */
 
     private void loginStylish(String token, LoadCallback loadCallback) {
-        mStylishRepository.postUserSignIn(token, new StylishDataSource.UserSignInCallback() {
+
+        mStylishRepository.postUserFacebookSignIn(token, new StylishDataSource.UserSignInCallback() {
+
+            @Override
+            public void onCompleted(UserSignIn bean) {
+
+                setUser(bean.getUser());
+
+                Stylish.getAppContext().getSharedPreferences(Constants.USER_DATA, Context.MODE_PRIVATE).edit()
+                        .putString(Constants.USER_TOKEN, bean.getAccessToken())
+                        .apply();
+                loadCallback.onSuccess();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+                Log.d(Constants.TAG, errorMessage);
+                loadCallback.onFail(errorMessage);
+            }
+        });
+    }
+
+    public void loginStylishNative(String email, String password, LoadCallback loadCallback) {
+
+        mStylishRepository.postUserNativeSignIn(email, password, new StylishDataSource.UserSignInCallback() {
+
             @Override
             public void onCompleted(UserSignIn bean) {
 

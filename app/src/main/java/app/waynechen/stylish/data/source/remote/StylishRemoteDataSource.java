@@ -9,8 +9,6 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import app.waynechen.stylish.MainMvpController;
-import app.waynechen.stylish.R;
-import app.waynechen.stylish.Stylish;
 import app.waynechen.stylish.api.StylishApiHelper;
 import app.waynechen.stylish.api.exception.StylishException;
 import app.waynechen.stylish.api.exception.StylishInvalidTokenException;
@@ -20,7 +18,8 @@ import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 import app.waynechen.stylish.data.source.task.GetUserProfileTask;
 import app.waynechen.stylish.data.source.task.PostNewAvatarTask;
-import app.waynechen.stylish.data.source.task.UserSignInTask;
+import app.waynechen.stylish.data.source.task.UserSignInFacebookTask;
+import app.waynechen.stylish.data.source.task.UserSignInNativeTask;
 import app.waynechen.stylish.data.source.task.UserSignUpTask;
 import app.waynechen.stylish.util.Constants;
 
@@ -166,10 +165,15 @@ public class StylishRemoteDataSource implements StylishDataSource {
     }
 
     @Override
-    public void postUserSignIn(@NonNull String token,
-                               @NonNull UserSignInCallback callback) {
+    public void postUserFacebookSignIn(@NonNull String token,
+                                       @NonNull UserSignInCallback callback) {
 
-        new UserSignInTask(token, callback).execute();
+        new UserSignInFacebookTask(token, callback).execute();
+    }
+
+    @Override
+    public void postUserNativeSignIn(@NonNull String email, @NonNull String password, @NonNull UserSignInCallback callback) {
+        new UserSignInNativeTask(email, password, callback).execute();
     }
 
     @Override

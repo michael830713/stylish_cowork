@@ -68,7 +68,9 @@ public interface StylishDataSource {
     void getProductList(@NonNull @MainMvpController.CatalogItem String itemType,
                         int paging, @NonNull GetProductListCallback callback);
 
-    void postUserSignIn(@NonNull String token, @NonNull UserSignInCallback callback);
+    void postUserFacebookSignIn(@NonNull String token, @NonNull UserSignInCallback callback);
+
+    void postUserNativeSignIn(@NonNull String email, @NonNull String password, @NonNull UserSignInCallback callback);
 
     void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback);
 

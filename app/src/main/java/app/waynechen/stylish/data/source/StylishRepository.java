@@ -80,8 +80,25 @@ public class StylishRepository implements StylishDataSource {
     }
 
     @Override
-    public void postUserSignIn(@NonNull String token, UserSignInCallback callback) {
-        mStylishRemoteDataSource.postUserSignIn(token, new UserSignInCallback() {
+    public void postUserFacebookSignIn(@NonNull String token, UserSignInCallback callback) {
+        mStylishRemoteDataSource.postUserFacebookSignIn(token, new UserSignInCallback() {
+            @Override
+            public void onCompleted(UserSignIn bean) {
+
+                // todo something
+                callback.onCompleted(bean);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                callback.onError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void postUserNativeSignIn(@NonNull String email, String password, UserSignInCallback callback) {
+        mStylishRemoteDataSource.postUserNativeSignIn(email, password, new UserSignInCallback() {
             @Override
             public void onCompleted(UserSignIn bean) {
 
