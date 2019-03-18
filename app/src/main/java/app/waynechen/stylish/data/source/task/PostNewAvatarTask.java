@@ -18,7 +18,7 @@ import app.waynechen.stylish.util.Constants;
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
-public class PostNewAvatarTask extends AsyncTask<Void, Void, JSONObject> {
+public class PostNewAvatarTask extends AsyncTask<Void, Void, String> {
 
     private String mErrorMessage;
     private Uri mImageUri;
@@ -39,9 +39,9 @@ public class PostNewAvatarTask extends AsyncTask<Void, Void, JSONObject> {
     }
 
     @Override
-    protected JSONObject doInBackground(Void[] voids) {
+    protected String doInBackground(Void[] voids) {
 
-        JSONObject bean = null;
+        String bean = null;
 
         bean = StylishApiHelper.postAvatarImage(mImageUri, mRealPath);
 
@@ -49,7 +49,7 @@ public class PostNewAvatarTask extends AsyncTask<Void, Void, JSONObject> {
     }
 
     @Override
-    protected void onPostExecute(JSONObject bean) {
+    protected void onPostExecute(String bean) {
         super.onPostExecute(bean);
 
         if (bean != null) {

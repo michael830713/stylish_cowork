@@ -68,6 +68,8 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 
     @Override
     public void setGalleryImagePicked(Uri imageUri, String realPath) {
-        mProfileView.showImagePickedFromGallery(imageUri, realPath);
+        String token = UserManager.getInstance().getUserToken();
+        mProfileView.showImagePickedFromGallery(token,imageUri, realPath);
+
     }
 }

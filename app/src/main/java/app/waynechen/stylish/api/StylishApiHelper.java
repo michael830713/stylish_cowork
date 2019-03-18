@@ -26,6 +26,8 @@ import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 import app.waynechen.stylish.data.source.bean.UserSignIn;
 import app.waynechen.stylish.util.Constants;
+import app.waynechen.stylish.util.UserManager;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -267,9 +269,10 @@ public class StylishApiHelper {
 //        return image;
 //    }
 
-    public static JSONObject postAvatarImage(Uri imageUri, String realPath) {
+    public static String postAvatarImage(Uri imageUri, String realPath) {
 
         try {
+
 //            final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
             File sourceFile = new File(realPath);
 
@@ -288,6 +291,7 @@ public class StylishApiHelper {
 
             Request request = new Request.Builder()
                     .url(POST_AVATAR_URL)
+                    .addHeader(AUTHORIZATION, BEARER_ + UserManager.getInstance().getUserToken())
                     .post(requestBody)
                     .build();
 
@@ -296,7 +300,7 @@ public class StylishApiHelper {
             Log.d(TAG, "response: " + response);
             String result = response.body().string();
             Log.d("Resulty", "result: " + result);
-            return new JSONObject(response.body().string());
+            return result;
 
         } catch (UnknownHostException | UnsupportedEncodingException e) {
             Log.e(TAG, "Error: " + e.getLocalizedMessage());

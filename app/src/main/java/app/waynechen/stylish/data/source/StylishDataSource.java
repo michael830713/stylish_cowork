@@ -40,7 +40,7 @@ public interface StylishDataSource {
 
     interface AvatarChangeCallback {
 
-        void onCompleted(JSONObject bean);
+        void onCompleted(String bean);
 
         void onError(String errorMessage);
     }

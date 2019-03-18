@@ -181,7 +181,7 @@ public class UserManager {
     public void postUserAvatarImage(Uri imageUri, String realpath, LoadCallback loadCallback) {
         mStylishRepository.postChangedAvatar(imageUri, realpath, new StylishDataSource.AvatarChangeCallback() {
             @Override
-            public void onCompleted(JSONObject bean) {
+            public void onCompleted(String bean) {
                 Log.d(TAG, "onCompleted JSONObject: " + bean);
                 loadCallback.onSuccess();
             }

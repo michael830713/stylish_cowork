@@ -99,7 +99,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         });
     }
 
-
     @Override
     public boolean isActive() {
         return !isHidden();
@@ -111,7 +110,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     }
 
     @Override
-    public void showImagePickedFromGallery(Uri imageUri, String realPath) {
+    public void showImagePickedFromGallery(String token, Uri imageUri, String realPath) {
         Log.d(TAG, "showImagePickedFromGallery: " + imageUri);
         mImageAvatar.setImageURI(imageUri);
         UserManager.getInstance().postUserAvatarImage(imageUri, realPath, new UserManager.LoadCallback() {
@@ -130,7 +129,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
             }
         });
-
 
     }
 }

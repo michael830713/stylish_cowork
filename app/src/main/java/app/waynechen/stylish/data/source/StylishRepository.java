@@ -132,7 +132,7 @@ public class StylishRepository implements StylishDataSource {
     public void postChangedAvatar(Uri imageUri, String realPath, AvatarChangeCallback callback) {
         mStylishRemoteDataSource.postChangedAvatar(imageUri, realPath, new AvatarChangeCallback() {
             @Override
-            public void onCompleted(JSONObject bean) {
+            public void onCompleted(String bean) {
                 callback.onCompleted(bean);
             }
 

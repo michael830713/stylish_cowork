@@ -39,7 +39,7 @@ public interface ProfileContract {
 
         void showLoginDialogUi();
 
-        void showImagePickedFromGallery(Uri imageUri,String realPath);
+        void showImagePickedFromGallery(String token,Uri imageUri,String realPath);
     }
 
     interface Presenter extends BasePresenter {
