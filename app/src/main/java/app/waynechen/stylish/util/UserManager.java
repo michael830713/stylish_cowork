@@ -31,7 +31,7 @@ import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
  * Created by Wayne Chen on Feb. 2019.
  */
 public class UserManager {
-
+    private static final String TAG = "UserManager";
     private final StylishRepository mStylishRepository;
     private User mUser;
     private CallbackManager mFbCallbackManager;
@@ -141,7 +141,7 @@ public class UserManager {
             public void onCompleted(UserSignIn bean) {
 
                 setUser(bean.getUser());
-
+                Log.d(TAG, "bean access token: " + bean.getAccessToken());
                 Stylish.getAppContext().getSharedPreferences(Constants.USER_DATA, Context.MODE_PRIVATE).edit()
                         .putString(Constants.USER_TOKEN, bean.getAccessToken())
                         .apply();

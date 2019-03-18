@@ -15,13 +15,13 @@ import java.io.IOException;
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
-public class UserSignInFacebookTask extends AsyncTask<Void, Void, UserSignIn> {
+public class UserSignInWithTokenTask extends AsyncTask<Void, Void, UserSignIn> {
 
     private String mErrorMessage;
     private String mToken;
     private StylishDataSource.UserSignInCallback mCallback;
 
-    public UserSignInFacebookTask(String token, StylishDataSource.UserSignInCallback callback) {
+    public UserSignInWithTokenTask(String token, StylishDataSource.UserSignInCallback callback) {
         mErrorMessage = "";
         mToken = token;
         mCallback = callback;
@@ -64,7 +64,7 @@ public class UserSignInFacebookTask extends AsyncTask<Void, Void, UserSignIn> {
             mCallback.onError(mErrorMessage);
         } else {
 
-            Log.d(Constants.TAG, "UserSignInFacebookTask fail");
+            Log.d(Constants.TAG, "UserSignInWithTokenTask fail");
         }
     }
 }

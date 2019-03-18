@@ -18,7 +18,7 @@ import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 import app.waynechen.stylish.data.source.task.GetUserProfileTask;
 import app.waynechen.stylish.data.source.task.PostNewAvatarTask;
-import app.waynechen.stylish.data.source.task.UserSignInFacebookTask;
+import app.waynechen.stylish.data.source.task.UserSignInWithTokenTask;
 import app.waynechen.stylish.data.source.task.UserSignInNativeTask;
 import app.waynechen.stylish.data.source.task.UserSignUpTask;
 import app.waynechen.stylish.util.Constants;
@@ -168,7 +168,7 @@ public class StylishRemoteDataSource implements StylishDataSource {
     public void postUserFacebookSignIn(@NonNull String token,
                                        @NonNull UserSignInCallback callback) {
 
-        new UserSignInFacebookTask(token, callback).execute();
+        new UserSignInWithTokenTask(token, callback).execute();
     }
 
     @Override
