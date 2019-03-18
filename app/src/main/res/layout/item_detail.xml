@@ -335,4 +335,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageViewStarred"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_gallery"
+        app:layout_constraintEnd_toEndOf="@+id/recycler_detail_gallery"
+        app:srcCompat="@drawable/ic_starred" />
+
 </android.support.constraint.ConstraintLayout>
