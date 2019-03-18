@@ -6,11 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import app.waynechen.stylish.MainActivity;
@@ -37,6 +40,8 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     MainContract.Presenter mMainPresenter;
     private ConstraintLayout mLayout;
     private int mLoginFrom = FROM_EVERYWHERE;
+    private EditText mEmail;
+    private EditText mPassword;
 
     public LoginDialog() {
     }
@@ -57,6 +62,9 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
         View view = inflater.inflate(R.layout.dialog_login, container, false);
         view.setOnClickListener(this);
+
+        mEmail = view.findViewById(R.id.editTextEmail);
+        mPassword = view.findViewById(R.id.editTextPassword);
 
         view.findViewById(R.id.button_login_facebook).setOnClickListener(this);
         view.findViewById(R.id.buttonSignUp).setOnClickListener(this);
@@ -107,40 +115,66 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                 });
             }
         } else if (v.getId() == R.id.buttonSignUp) {
-            UserManager.getInstance().signUpStylish("Mike", "mikeee@gmail.com", "88888888", new UserManager.LoadCallback() {
-                @Override
-                public void onSuccess() {
+            String email = mEmail.getText().toString();
+            String password = mPassword.getText().toString();
 
-                    setLoading(false);
+            if (isEmail(mEmail) && isSixDigit(mPassword)) {
+                UserManager.getInstance().signUpStylish("Mike", email, password, new UserManager.LoadCallback() {
+                    @Override
+                    public void onSuccess() {
 
-                    dismiss();
+                        setLoading(false);
 
-                    if (mMainPresenter != null) {
-                        mMainPresenter.showLoginSuccessDialog();
-                        mMainPresenter.onLoginSuccess(getLoginFrom());
+                        dismiss();
+
+                        if (mMainPresenter != null) {
+                            mMainPresenter.showLoginSuccessDialog();
+                            mMainPresenter.onLoginSuccess(getLoginFrom());
+                        }
                     }
-                }
 
 
-                @Override
-                public void onFail(String errorMessage) {
-                    Log.d(TAG, "onFail: " + errorMessage);
-                    Toast.makeText(getActivity(),errorMessage,Toast.LENGTH_SHORT).show();
-                    setLoading(false);
-                }
+                    @Override
+                    public void onFail(String errorMessage) {
+                        Log.d(TAG, "onFail: " + errorMessage);
+                        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                        setLoading(false);
+                    }
 
-                @Override
-                public void onInvalidToken(String errorMessage) {
-                    Log.d(TAG, "onInvalidToken: " + errorMessage);
-                    setLoading(false);
-                }
-            });
+                    @Override
+                    public void onInvalidToken(String errorMessage) {
+                        Log.d(TAG, "onInvalidToken: " + errorMessage);
+                        setLoading(false);
+                    }
+                });
+
+
+            } else if (!isEmail(mEmail)) {
+                Log.d(TAG, "this is not an email ");
+                Toast.makeText(getActivity(), "this is not an email", Toast.LENGTH_SHORT).show();
+            } else if (isEmail(mEmail) && !isSixDigit(mPassword)) {
+                Toast.makeText(getActivity(), "Password require more than 6 digits!", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(getActivity(), "Enter Email and password!", Toast.LENGTH_SHORT).show();
+
+            }
 
 
         } else {
 
             dismiss();
         }
+    }
+
+    boolean isSixDigit(EditText password) {
+        return password.getText().toString().length() >= 6;
+
+    }
+
+    boolean isEmail(EditText text) {
+        CharSequence email = text.getText().toString();
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     public boolean isLoading() {
