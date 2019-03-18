@@ -1,9 +1,12 @@
 package app.waynechen.stylish.data.source.remote;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import org.json.JSONObject;
 
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.R;
@@ -16,6 +19,7 @@ import app.waynechen.stylish.data.source.StylishDataSource;
 import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 import app.waynechen.stylish.data.source.task.GetUserProfileTask;
+import app.waynechen.stylish.data.source.task.PostNewAvatarTask;
 import app.waynechen.stylish.data.source.task.UserSignInTask;
 import app.waynechen.stylish.data.source.task.UserSignUpTask;
 import app.waynechen.stylish.util.Constants;
@@ -42,6 +46,20 @@ public class StylishRemoteDataSource implements StylishDataSource {
     }
 
     private StylishRemoteDataSource() {
+    }
+
+    public void sendUserAvatar(@NonNull GetHotsListCallback callback) {
+        new AsyncTask<Void, Void, JSONObject>() {
+            @Override
+            protected JSONObject doInBackground(Void... voids) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject jsonObject) {
+                super.onPostExecute(jsonObject);
+            }
+        };
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -157,6 +175,11 @@ public class StylishRemoteDataSource implements StylishDataSource {
     @Override
     public void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback) {
         new UserSignUpTask(name, email, password, callback).execute();
+    }
+
+    @Override
+    public void postChangedAvatar(Uri imageUri, String realPath, AvatarChangeCallback callback) {
+        new PostNewAvatarTask(imageUri, realPath, callback).execute();
     }
 
     @Override

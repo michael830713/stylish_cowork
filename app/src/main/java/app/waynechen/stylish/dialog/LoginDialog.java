@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
+import app.waynechen.stylish.MainActivity;
 import app.waynechen.stylish.MainContract;
 import app.waynechen.stylish.R;
 import app.waynechen.stylish.util.Constants;
@@ -25,6 +27,7 @@ import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
  */
 public class LoginDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
+    private static final String TAG = "LoginDialog";
     public static final int FROM_EVERYWHERE = 0x40;
     public static final int FROM_PROFILE = 0x41;
     public static final int FROM_PAYMENT = 0x42;
@@ -122,6 +125,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                 @Override
                 public void onFail(String errorMessage) {
                     Log.d(TAG, "onFail: " + errorMessage);
+                    Toast.makeText(getActivity(),errorMessage,Toast.LENGTH_SHORT).show();
                     setLoading(false);
                 }
 

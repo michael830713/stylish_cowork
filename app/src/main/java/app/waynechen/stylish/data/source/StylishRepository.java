@@ -2,7 +2,10 @@ package app.waynechen.stylish.data.source;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import org.json.JSONObject;
 
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.data.CheckOutInfo;
@@ -109,6 +112,21 @@ public class StylishRepository implements StylishDataSource {
     }
 
     @Override
+    public void postChangedAvatar(Uri imageUri, String realPath, AvatarChangeCallback callback) {
+        mStylishRemoteDataSource.postChangedAvatar(imageUri, realPath, new AvatarChangeCallback() {
+            @Override
+            public void onCompleted(JSONObject bean) {
+                callback.onCompleted(bean);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                callback.onError(errorMessage);
+            }
+        });
+    }
+
+    @Override
     public void getUserProfile(@NonNull String token, @NonNull GetUserProfileCallback callback) {
         mStylishRemoteDataSource.getUserProfile(token, new GetUserProfileCallback() {
             @Override
@@ -153,4 +171,5 @@ public class StylishRepository implements StylishDataSource {
     public String getUserInformation(@NonNull String key) {
         return mStylishLocalDataSource.getUserInformation(key);
     }
+
 }

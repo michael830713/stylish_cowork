@@ -3,10 +3,20 @@ package app.waynechen.stylish.api;
 import static app.waynechen.stylish.MainMvpController.ACCESSORIES;
 import static app.waynechen.stylish.MainMvpController.MEN;
 import static app.waynechen.stylish.MainMvpController.WOMEN;
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
 
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
+import android.widget.Toast;
 
+import app.waynechen.stylish.MainActivity;
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.api.exception.StylishException;
 import app.waynechen.stylish.api.exception.StylishInvalidTokenException;
@@ -16,8 +26,20 @@ import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 import app.waynechen.stylish.data.source.bean.UserSignIn;
 import app.waynechen.stylish.util.Constants;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +51,17 @@ import org.json.JSONObject;
  */
 public class StylishApiHelper {
 
+    private static final String TAG = "StylishApiHelper";
+
     private static final String HOST = "https://api.appworks-school.tw";
+
     private static final String API_VERSION = "1.0";
     private static final String API_VERSION_PATH = "/" + API_VERSION;
     private static final String API_PATH = "/api";
+    private static final String NIMABACHI_HOST = "https://www.nimabachi.com";
+    private static final String NIMABACHI_API_VERSION = "1.0";
+    private static final String NIMABACHI_API_VERSION_PATH = "/" + NIMABACHI_API_VERSION;
+    private static final String NIMABACHI_AVATAR_PATH = "/admin/avatar";
     private static final String MARKETING_PATH = "/marketing";
     private static final String HOTS_PATH = "/hots";
     private static final String MARKETING_HOTS_PATH = MARKETING_PATH + HOTS_PATH;
@@ -64,6 +93,7 @@ public class StylishApiHelper {
     private static final String POST_USER_SIGNUP_URL = HOST + API_PATH + API_VERSION_PATH + USER_SIGNUP_PATH;
     private static final String GET_USER_PROFILE_URL = HOST + API_PATH + API_VERSION_PATH + USER_PROFILE_PATH;
     private static final String POST_ORDER_CHECKOUT_URL = HOST + API_PATH + API_VERSION_PATH + ORDER_CHECKOUT_PATH;
+    private static final String POST_AVATAR_URL = NIMABACHI_HOST + API_PATH + NIMABACHI_API_VERSION_PATH + NIMABACHI_AVATAR_PATH;
 
     // Headers
     private static final String CONTENT_TYPE = "Content-Type";
@@ -79,6 +109,7 @@ public class StylishApiHelper {
 
     /**
      * GET Marketing Hots API.
+     *
      * @param
      * @return
      * @throws IOException
@@ -100,6 +131,7 @@ public class StylishApiHelper {
 
     /**
      * GET Product List API.
+     *
      * @param
      * @return
      * @throws IOException
@@ -139,6 +171,7 @@ public class StylishApiHelper {
 
     /**
      * POST User Sign In API.
+     *
      * @param
      * @return
      * @throws IOException
@@ -183,12 +216,79 @@ public class StylishApiHelper {
         } catch (StylishInvalidTokenException e) {
             throw new StylishInvalidTokenException(e.getMessage());
         } catch (StylishException e) {
+            e.printStackTrace();
             throw new StylishException(e.getMessage());
         }
     }
 
+
+//    private String getRealPathFromURI(Uri contentUri) {
+//        String[] proj = { MediaStore.Images.Media.DATA };
+//        CursorLoader loader = new CursorLoader(getContext, contentUri, proj, null, null, null);
+//        Cursor cursor = loader.loadInBackground();
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        String result = cursor.getString(column_index);
+//        cursor.close();
+//        return result;
+//    }
+
+//    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+//        ParcelFileDescriptor parcelFileDescriptor =
+//                getContentResolver().openFileDescriptor(uri, "r");
+//        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+//        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+//        parcelFileDescriptor.close();
+//        return image;
+//    }
+
+    public static JSONObject postAvatarImage(Uri imageUri, String realPath) {
+
+        try {
+//            final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
+            File sourceFile = new File(realPath);
+
+
+            Log.d(TAG, "File...::::" + sourceFile + " : " + sourceFile.exists());
+
+            final MediaType MEDIA_TYPE = MediaType.parse("image/jpeg");
+            Log.d(TAG, "MEDIA_TYPE: " + MEDIA_TYPE);
+            System.out.println(new File(realPath).getAbsoluteFile());
+//                    MediaType.parse("image/png") : MediaType.parse("image/jpeg");
+
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("avatar", "avatar.jpg", RequestBody.create(MEDIA_TYPE, sourceFile))
+//                    .addFormDataPart("name", "Mike")
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(POST_AVATAR_URL)
+                    .post(requestBody)
+                    .build();
+
+            OkHttpClient client = new OkHttpClient();
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "response: " + response);
+            String result = response.body().string();
+            Log.d("Resulty", "result: " + result);
+            return new JSONObject(response.body().string());
+
+        } catch (UnknownHostException | UnsupportedEncodingException e) {
+            Log.e(TAG, "Error: " + e.getLocalizedMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "Other Error: " + e.getLocalizedMessage());
+        }
+        return null;
+
+    }
+
+
     /**
      * GET User Sign In API.
+     *
      * @param
      * @return
      * @throws IOException
@@ -211,6 +311,7 @@ public class StylishApiHelper {
 
     /**
      * POST Order Check Out API.
+     *
      * @param
      * @return
      * @throws IOException

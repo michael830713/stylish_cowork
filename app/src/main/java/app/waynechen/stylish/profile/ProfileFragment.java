@@ -15,8 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import app.waynechen.stylish.R;
+import app.waynechen.stylish.api.StylishApiHelper;
 import app.waynechen.stylish.component.ProfileAvatarOutlineProvider;
 import app.waynechen.stylish.dialog.LoginDialog;
 import app.waynechen.stylish.util.ImageManager;
@@ -107,8 +111,26 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     }
 
     @Override
-    public void showImagePickedFromGallery(Uri imageUri) {
-        Log.d(TAG, "showImagePickedFromGallery: "+imageUri);
+    public void showImagePickedFromGallery(Uri imageUri, String realPath) {
+        Log.d(TAG, "showImagePickedFromGallery: " + imageUri);
         mImageAvatar.setImageURI(imageUri);
+        UserManager.getInstance().postUserAvatarImage(imageUri, realPath, new UserManager.LoadCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getContext(), "uploaded to database success", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+
+            @Override
+            public void onInvalidToken(String errorMessage) {
+
+            }
+        });
+
+
     }
 }

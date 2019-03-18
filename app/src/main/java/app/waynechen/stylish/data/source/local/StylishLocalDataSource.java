@@ -1,5 +1,6 @@
 package app.waynechen.stylish.data.source.local;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import app.waynechen.stylish.R;
@@ -35,6 +36,11 @@ public class StylishLocalDataSource implements StylishDataSource {
 
     @Override
     public void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback) {
+
+    }
+
+    @Override
+    public void postChangedAvatar(Uri imageUri, String realPath, AvatarChangeCallback callback) {
 
     }
 

@@ -138,7 +138,7 @@ public interface MainContract {
 
         void onClickDrawerAvatar();
 
-        void onGalleryImagePicked(Uri imageUri);
+        void onGalleryImagePicked(Uri imageUri, String realPath);
 
     }
 }

@@ -1,6 +1,9 @@
 package app.waynechen.stylish.data.source;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import org.json.JSONObject;
 
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.data.CheckOutInfo;
@@ -35,6 +38,13 @@ public interface StylishDataSource {
         void onError(String errorMessage);
     }
 
+    interface AvatarChangeCallback {
+
+        void onCompleted(JSONObject bean);
+
+        void onError(String errorMessage);
+    }
+
     interface GetUserProfileCallback {
 
         void onCompleted(User user);
@@ -61,6 +71,8 @@ public interface StylishDataSource {
     void postUserSignIn(@NonNull String token, @NonNull UserSignInCallback callback);
 
     void postUserSignUp(@NonNull String name, String email, String password, UserSignInCallback callback);
+
+    void postChangedAvatar(Uri imageUri, String realPath, AvatarChangeCallback callback);
 
     void getUserProfile(@NonNull String token, @NonNull GetUserProfileCallback callback);
 

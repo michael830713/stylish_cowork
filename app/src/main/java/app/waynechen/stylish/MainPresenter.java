@@ -632,7 +632,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void setGalleryImagePicked(Uri imageUri) {
+    public void setGalleryImagePicked(Uri imageUri,String realPath) {
 
     }
 
@@ -699,7 +699,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void onGalleryImagePicked(Uri imageUri) {
-        mProfilePresenter.setGalleryImagePicked(imageUri);
+    public void onGalleryImagePicked(Uri imageUri,String realPath) {
+        mProfilePresenter.setGalleryImagePicked(imageUri,realPath);
     }
 }

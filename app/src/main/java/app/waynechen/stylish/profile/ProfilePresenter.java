@@ -25,10 +25,12 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void result(int requestCode, int resultCode) {}
+    public void result(int requestCode, int resultCode) {
+    }
 
     @Override
-    public void start() {}
+    public void start() {
+    }
 
     @Override
     public void loadProfileUserData() {
@@ -39,7 +41,8 @@ public class ProfilePresenter implements ProfileContract.Presenter {
             }
 
             @Override
-            public void onFail(String errorMessage) {}
+            public void onFail(String errorMessage) {
+            }
 
             @Override
             public void onInvalidToken(String errorMessage) {
@@ -60,10 +63,11 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void showLoginDialog(int loginFrom) {}
+    public void showLoginDialog(int loginFrom) {
+    }
 
     @Override
-    public void setGalleryImagePicked(Uri imageUri) {
-        mProfileView.showImagePickedFromGallery(imageUri);
+    public void setGalleryImagePicked(Uri imageUri, String realPath) {
+        mProfileView.showImagePickedFromGallery(imageUri, realPath);
     }
 }

@@ -2,6 +2,7 @@ package app.waynechen.stylish.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -21,7 +22,11 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.json.JSONObject;
+
 import java.util.Arrays;
+
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
 
 
 /**
@@ -99,8 +104,6 @@ public class UserManager {
     }
 
 
-
-
     /**
      * Login Stylish by Facebook: Step 3. Login Stylish
      *
@@ -145,6 +148,21 @@ public class UserManager {
             @Override
             public void onError(String errorMessage) {
                 Log.d(Constants.TAG, errorMessage);
+                loadCallback.onFail(errorMessage);
+            }
+        });
+    }
+
+    public void postUserAvatarImage(Uri imageUri, String realpath, LoadCallback loadCallback) {
+        mStylishRepository.postChangedAvatar(imageUri, realpath, new StylishDataSource.AvatarChangeCallback() {
+            @Override
+            public void onCompleted(JSONObject bean) {
+                Log.d(TAG, "onCompleted JSONObject: " + bean);
+                loadCallback.onSuccess();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
                 loadCallback.onFail(errorMessage);
             }
         });
@@ -201,6 +219,7 @@ public class UserManager {
 
     public String getUserInfo() {
         return mStylishRepository.getUserInformation(getUser().getEmail());
+
     }
 
     public String getUserToken() {

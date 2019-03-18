@@ -3,18 +3,27 @@ package app.waynechen.stylish;
 import static app.waynechen.stylish.profile.ProfileFragment.PICK_IMAGE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +33,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URI;
+
 import app.waynechen.stylish.catalog.item.CatalogItemFragment;
 import app.waynechen.stylish.component.ProfileAvatarOutlineProvider;
 import app.waynechen.stylish.data.Product;
@@ -31,6 +44,7 @@ import app.waynechen.stylish.dialog.LoginDialog;
 import app.waynechen.stylish.dialog.MessageDialog;
 import app.waynechen.stylish.util.Constants;
 import app.waynechen.stylish.util.ImageManager;
+import app.waynechen.stylish.util.RealPathUtil;
 import app.waynechen.stylish.util.UserManager;
 
 /**
@@ -39,6 +53,7 @@ import app.waynechen.stylish.util.UserManager;
 public class MainActivity extends BaseActivivty implements MainContract.View,
         NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 300;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private BottomNavigationView mBottomNavigation;
@@ -62,6 +77,25 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
         startActivity(new Intent(this, LogoActivity.class));
 
         init();
+
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Explain to the user why we need to read the contacts
+            }
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+            // app-defined int constant that should be quite unique
+
+            return;
+        }
+
     }
 
     private void init() {
@@ -80,12 +114,34 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             Uri imageUri = data.getData();
-            mPresenter.onGalleryImagePicked(imageUri);
+
+            String realpath = getRealPathFromURI(getApplicationContext(), imageUri);
+
+//            Log.d("MainActivitys", "getRealPathFromURI: "+fff);
+//            String realpath = RealPathUtil.getRealPath(getApplicationContext(), imageUri);
+//            Log.d("MainActivitys", "onActivityResult: "+realpath);
+            mPresenter.onGalleryImagePicked(imageUri, realpath);
 
         } else {
             UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
 
         }
+    }
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null
+                , MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
     }
 
     /**
