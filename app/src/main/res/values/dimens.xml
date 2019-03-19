@@ -19,6 +19,8 @@
     <!-- Profile  -->
     <dimen name="height_profile_header">92dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
+    <dimen name="height_profile_button">22dp</dimen>
+    <dimen name="width_profile_button">22dp</dimen>
 
     <!-- Login Dialog -->
     <dimen name="height_login">202dp</dimen>

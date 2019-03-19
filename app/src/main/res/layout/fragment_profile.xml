@@ -175,7 +175,7 @@
         style="@style/ProfileServiceButton"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:drawableTop="@drawable/ic_starred"
+        android:drawableTop="@drawable/shrink_favorite"
         android:text="@string/starred"
         app:layout_constraintEnd_toStartOf="@+id/button_profile_notification"
         app:layout_constraintHorizontal_bias="0.5"
