@@ -76,6 +76,7 @@ public interface StylishDataSource {
 
     void postChangedAvatar(Uri imageUri, String realPath, AvatarChangeCallback callback);
 
+
     void getUserProfile(@NonNull String token, @NonNull GetUserProfileCallback callback);
 
     void postOrderCheckOutCallback(@NonNull String token, @NonNull CheckOutInfo checkOutInfo,

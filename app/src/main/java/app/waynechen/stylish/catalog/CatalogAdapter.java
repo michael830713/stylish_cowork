@@ -16,7 +16,7 @@ public class CatalogAdapter extends FragmentPagerAdapter {
 
     private FragmentManager mFragmentManager;
     private CatalogContract.Presenter mPresenter;
-    private String[] mItemTypes = new String[] {WOMEN, MEN, ACCESSORIES};
+    private String[] mItemTypes = new String[]{WOMEN, MEN, ACCESSORIES};
 
     public CatalogAdapter(FragmentManager fragmentManager, CatalogContract.Presenter presenter) {
         super(fragmentManager);

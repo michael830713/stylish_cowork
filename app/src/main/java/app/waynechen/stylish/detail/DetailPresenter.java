@@ -26,7 +26,8 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void result(int requestCode, int resultCode) {}
+    public void result(int requestCode, int resultCode) {
+    }
 
     @Override
     public void loadDetailProductData() {
@@ -39,21 +40,27 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void hideToolbarAndBottomNavigation() {}
+    public void hideToolbarAndBottomNavigation() {
+    }
 
     @Override
-    public void showToolbarAndBottomNavigation() {}
+    public void showToolbarAndBottomNavigation() {
+    }
 
     @Override
-    public void showAdd2CartDialog(Product product) {}
+    public void showAdd2CartDialog(Product product) {
+    }
 
     @Override
-    public void updateCartBadge() {}
+    public void updateCartBadge() {
+    }
 
     @Override
-    public void finishDetail() {}
+    public void finishDetail() {
+    }
 
     @Override
-    public void start() {}
+    public void start() {
+    }
 
 }

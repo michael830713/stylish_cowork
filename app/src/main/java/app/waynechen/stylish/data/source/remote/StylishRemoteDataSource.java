@@ -47,19 +47,7 @@ public class StylishRemoteDataSource implements StylishDataSource {
     private StylishRemoteDataSource() {
     }
 
-    public void sendUserAvatar(@NonNull GetHotsListCallback callback) {
-        new AsyncTask<Void, Void, JSONObject>() {
-            @Override
-            protected JSONObject doInBackground(Void... voids) {
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(JSONObject jsonObject) {
-                super.onPostExecute(jsonObject);
-            }
-        };
-    }
 
     @SuppressLint("StaticFieldLeak")
     @Override

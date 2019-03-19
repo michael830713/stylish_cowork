@@ -17,12 +17,17 @@ import app.waynechen.stylish.R;
 import app.waynechen.stylish.Stylish;
 import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.data.Variant;
+import app.waynechen.stylish.data.source.StylishDataSource;
+import app.waynechen.stylish.data.source.task.RemoveFavoriteTask;
+import app.waynechen.stylish.data.source.task.SaveFavoriteTask;
 import app.waynechen.stylish.util.Constants;
+import app.waynechen.stylish.util.UserManager;
 
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
 public class DetailAdapter extends RecyclerView.Adapter {
+    private static final String TAG = "DetailAdapter";
 
     private static final int TYPE_LOADING = 0;
     private static final int TYPE_DETAIL = 0x01;
@@ -211,12 +216,40 @@ public class DetailAdapter extends RecyclerView.Adapter {
             mButtonFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    String token = UserManager.getInstance().getUserToken();
+                    long productId = mProduct.getId();
                     //use flag to change image
                     if (!flag) {
+
+                        new SaveFavoriteTask(token, productId, new StylishDataSource.AvatarChangeCallback() {
+                            @Override
+                            public void onCompleted(String bean) {
+                                Log.d(TAG, "Add to favorite complete: " + bean);
+                            }
+
+                            @Override
+                            public void onError(String errorMessage) {
+                                Log.d(TAG, "Add to favorite Error: " + errorMessage);
+                            }
+                        }).execute();
+
                         mButtonFavorite.setImageResource(R.drawable.favorite_selected);
                         flag = true;
                     } else {
+                        new RemoveFavoriteTask(token, productId, new StylishDataSource.AvatarChangeCallback() {
+                            @Override
+                            public void onCompleted(String bean) {
+                                Log.d(TAG, "Add to favorite complete: " + bean);
+
+                            }
+
+                            @Override
+                            public void onError(String errorMessage) {
+                                Log.d(TAG, "Add to favorite Error: " + errorMessage);
+
+                            }
+                        }).execute();
+
                         mButtonFavorite.setImageResource(R.drawable.favorite);
                         flag = false;
                     }
