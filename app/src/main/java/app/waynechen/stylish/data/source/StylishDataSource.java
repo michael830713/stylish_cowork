@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.data.CheckOutInfo;
+import app.waynechen.stylish.data.Favorite;
 import app.waynechen.stylish.data.User;
 import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
@@ -45,6 +46,13 @@ public interface StylishDataSource {
         void onError(String errorMessage);
     }
 
+    interface FavoriteListCallback {
+
+        void onCompleted(Favorite bean);
+
+        void onError(String errorMessage);
+    }
+
     interface GetUserProfileCallback {
 
         void onCompleted(User user);
@@ -67,6 +75,8 @@ public interface StylishDataSource {
 
     void getProductList(@NonNull @MainMvpController.CatalogItem String itemType,
                         int paging, @NonNull GetProductListCallback callback);
+
+    void getFavoriteList(String token, FavoriteListCallback callback);
 
     void postUserFacebookSignIn(@NonNull String token, @NonNull UserSignInCallback callback);
 

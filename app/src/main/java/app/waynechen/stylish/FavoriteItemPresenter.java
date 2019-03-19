@@ -2,15 +2,14 @@ package app.waynechen.stylish;
 
 import android.support.annotation.NonNull;
 
-import app.waynechen.stylish.catalog.item.CatalogItemContract;
+import java.util.ArrayList;
+
+import app.waynechen.stylish.data.Favorite;
 import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.data.source.StylishDataSource;
 import app.waynechen.stylish.data.source.StylishRepository;
-import app.waynechen.stylish.data.source.bean.GetProductList;
+import app.waynechen.stylish.util.UserManager;
 
-import static app.waynechen.stylish.MainMvpController.ACCESSORIES;
-import static app.waynechen.stylish.MainMvpController.MEN;
-import static app.waynechen.stylish.MainMvpController.WOMEN;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -33,88 +32,58 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
     }
 
     @Override
-    public void result(int requestCode, int resultCode) {}
+    public void result(int requestCode, int resultCode) {
+    }
 
     @Override
-    public void start() {}
+    public void start() {
+    }
 
     @Override
-    public void loadWomenProductsData() {
+    public void loadProductsData() {
 
-        if (!isLoadingData() && mCatalogItemView.hasNextPaging()) {
+        if (!isLoadingData()) {
             setLoadingData(true);
-            mStylishRepository.getProductList(WOMEN, mCatalogItemView.getPaging(),
-                    new StylishDataSource.GetProductListCallback() {
-                        @Override
-                        public void onCompleted(GetProductList bean) {
-                            setLoadingData(false);
-                            setWomenProductsData(bean);
-                        }
+            mStylishRepository.getFavoriteList(UserManager.getInstance().getUserToken(), new StylishDataSource.FavoriteListCallback() {
+                @Override
+                public void onCompleted(Favorite bean) {
+                    bean.getData().getIds();
 
-                        @Override
-                        public void onError(String errorMessage) {
-                            setLoadingData(false);
-                        }
-                    });
+
+                    setLoadingData(false);
+                    setProductsData(bean);
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+
+                }
+            });
+
         }
+
+//        if (!isLoadingData() && mCatalogItemView.hasNextPaging()) {
+
+//            setLoadingData(true);
+//            mStylishRepository.getProductList(WOMEN, mCatalogItemView.getPaging(),
+//                    new StylishDataSource.GetProductListCallback() {
+//                        @Override
+//                        public void onCompleted(GetProductList bean) {
+//                            setLoadingData(false);
+//                            setWomenProductsData(bean);
+//                        }
+//
+//                        @Override
+//                        public void onError(String errorMessage) {
+//                            setLoadingData(false);
+//                        }
+//                    });
+//    }
+
     }
 
     @Override
-    public void setWomenProductsData(GetProductList bean) {
-        mCatalogItemView.showProductsUi(bean);
-    }
-
-    @Override
-    public void loadMenProductsData() {
-
-        if (!isLoadingData() && mCatalogItemView.hasNextPaging()) {
-            setLoadingData(true);
-            mStylishRepository.getProductList(MEN, mCatalogItemView.getPaging(),
-                    new StylishDataSource.GetProductListCallback() {
-                        @Override
-                        public void onCompleted(GetProductList bean) {
-
-                            setLoadingData(false);
-                            setMenProductsData(bean);
-                        }
-
-                        @Override
-                        public void onError(String errorMessage) {
-                            setLoadingData(false);
-                        }
-                    });
-        }
-    }
-
-    @Override
-    public void setMenProductsData(GetProductList bean) {
-        mCatalogItemView.showProductsUi(bean);
-    }
-
-    @Override
-    public void loadAccessoriesProductsData() {
-
-        if (!isLoadingData() && mCatalogItemView.hasNextPaging()) {
-            setLoadingData(true);
-            mStylishRepository.getProductList(ACCESSORIES, mCatalogItemView.getPaging(),
-                    new StylishDataSource.GetProductListCallback() {
-                        @Override
-                        public void onCompleted(GetProductList bean) {
-
-                            setLoadingData(false);
-                            setAccessoriesProductsData(bean);
-                        }
-
-                        @Override
-                        public void onError(String errorMessage) {
-                            setLoadingData(false);
-                        }
-                    });
-        }
-    }
-
-    @Override
-    public void setAccessoriesProductsData(GetProductList bean) {
+    public void setProductsData(ArrayList<Product> bean) {
         mCatalogItemView.showProductsUi(bean);
     }
 
@@ -125,18 +94,6 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
 
     @Override
     public void onCatalogItemScrollToBottom(String itemType) {
-        switch (itemType) {
-            case WOMEN:
-                loadWomenProductsData();
-                break;
-            case MEN:
-                loadMenProductsData();
-                break;
-            case ACCESSORIES:
-                loadAccessoriesProductsData();
-                break;
-            default:
-        }
     }
 
     @Override

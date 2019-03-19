@@ -8,18 +8,18 @@ import java.util.List;
  */
 public class Favorite {
 
-    private List<ID> data;
+    private ID data;
 
 
-    public List<ID> getData() {
+    public ID getData() {
         return data;
     }
 
 
-    private class ID {
+    public class ID {
         private String[] id;
 
-        public String[] getId() {
+        public String[] getIds() {
             return id;
         }
     }

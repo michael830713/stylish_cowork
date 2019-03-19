@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.data.CheckOutInfo;
+import app.waynechen.stylish.data.Favorite;
 import app.waynechen.stylish.data.User;
 import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
@@ -75,6 +76,21 @@ public class StylishRepository implements StylishDataSource {
             @Override
             public void onError(String errorMessage) {
 
+            }
+        });
+    }
+
+    @Override
+    public void getFavoriteList(String token, FavoriteListCallback callback) {
+        mStylishRemoteDataSource.getFavoriteList(token, new FavoriteListCallback() {
+            @Override
+            public void onCompleted(Favorite bean) {
+                callback.onCompleted(bean);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                callback.onError(errorMessage);
             }
         });
     }

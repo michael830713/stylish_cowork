@@ -22,12 +22,10 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     private static final int TYPE_GRID      = 0x01;
 
     private FavoriteItemContract.Presenter mPresenter;
-    private String mItemType;
     private ArrayList<Product> mProducts = new ArrayList<>();
 
-    public FavoriteItemAdapter(FavoriteItemContract.Presenter presenter, @MainMvpController.CatalogItem String itemType) {
+    public FavoriteItemAdapter(FavoriteItemContract.Presenter presenter) {
         mPresenter = presenter;
-        mItemType = itemType;
     }
 
     @Override
@@ -68,7 +66,7 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return (mPresenter.isCatalogItemHasNextPaging(mItemType)) ? mProducts.size() + 1 : mProducts.size();
+        return mProducts.size();
     }
 
 

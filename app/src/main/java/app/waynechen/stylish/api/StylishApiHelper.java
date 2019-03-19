@@ -83,10 +83,12 @@ public class StylishApiHelper {
     private static final String SIGNUP_PATH = "/signup";
     private static final String FAVORITE_SAVE_PATH = "/favorite-save";
     private static final String FAVORITE_REMOVE_PATH = "/favorite-delete";
+    private static final String FAVORITE_GET_PATH = "/favorite-get";
     private static final String USER_SIGNIN_PATH = USER_PATH + SIGNIN_PATH;
     private static final String USER_SIGNUP_PATH = USER_PATH + SIGNUP_PATH;
     private static final String USER_FAVORITE_SAVE_PATH = USER_PATH + FAVORITE_SAVE_PATH;
     private static final String USER_FAVORITE_REMOVE_PATH = USER_PATH + FAVORITE_REMOVE_PATH;
+    private static final String USER_FAVORITE_GET_PATH = USER_PATH + FAVORITE_GET_PATH;
     private static final String PROFILE_PATH = "/profile";
     private static final String USER_PROFILE_PATH = USER_PATH + PROFILE_PATH;
     private static final String ORDER_PATH = "/order";
@@ -106,6 +108,7 @@ public class StylishApiHelper {
     private static final String POST_USER_SIGNUP_DAVIDADM_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_SIGNUP_PATH;
     private static final String GET_USER_FAVORITE_SAVE_DAVIDADM_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_FAVORITE_SAVE_PATH;
     private static final String GET_USER_FAVORITE_REMOVE_DAVIDADM_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_FAVORITE_REMOVE_PATH;
+    private static final String GET_USER_FAVORITE_GET_DAVIDADM_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_FAVORITE_GET_PATH;
 
     // Headers
     private static final String CONTENT_TYPE = "Content-Type";
@@ -279,6 +282,23 @@ public class StylishApiHelper {
         HashMap headers = new HashMap();
         headers.put(AUTHORIZATION, BEARER_ + token);
         String url = GET_USER_FAVORITE_REMOVE_DAVIDADM_URL + ID_PATH + itemId;
+        try {
+            String results = new StylishClient()
+                    .get(url, headers);
+            return results;
+        } catch (StylishInvalidTokenException e) {
+            throw new StylishInvalidTokenException(e.getMessage());
+        } catch (StylishException e) {
+            e.printStackTrace();
+            throw new StylishException(e.getMessage());
+        }
+    }
+
+    public static String getFavoriteItemList(@NonNull String token) throws IOException, StylishException {
+
+        HashMap headers = new HashMap();
+        headers.put(AUTHORIZATION, BEARER_ + token);
+        String url = GET_USER_FAVORITE_GET_DAVIDADM_URL ;
         try {
             String results = new StylishClient()
                     .get(url, headers);

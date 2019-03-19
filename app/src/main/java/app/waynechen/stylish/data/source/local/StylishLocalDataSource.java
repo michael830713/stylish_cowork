@@ -32,6 +32,11 @@ public class StylishLocalDataSource implements StylishDataSource {
                                @NonNull GetProductListCallback callback) {}
 
     @Override
+    public void getFavoriteList(String token, FavoriteListCallback callback) {
+
+    }
+
+    @Override
     public void postUserFacebookSignIn(@NonNull String token, UserSignInCallback callback) {}
 
     @Override

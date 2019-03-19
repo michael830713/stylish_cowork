@@ -16,6 +16,8 @@
 
 package app.waynechen.stylish;
 
+import java.util.ArrayList;
+
 import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.data.source.bean.GetProductList;
 
@@ -28,7 +30,7 @@ public interface FavoriteItemContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showProductsUi(GetProductList bean);
+        void showProductsUi(ArrayList<Product> bean);
 
         boolean hasNextPaging();
 
@@ -40,17 +42,10 @@ public interface FavoriteItemContract {
 
         void result(int requestCode, int resultCode);
 
-        void loadWomenProductsData();
+        void loadProductsData();
 
-        void setWomenProductsData(GetProductList bean);
+        void setProductsData(ArrayList<Product> bean);
 
-        void loadMenProductsData();
-
-        void setMenProductsData(GetProductList bean);
-
-        void loadAccessoriesProductsData();
-
-        void setAccessoriesProductsData(GetProductList bean);
 
         boolean isCatalogItemHasNextPaging(@MainMvpController.CatalogItem String itemType);
 

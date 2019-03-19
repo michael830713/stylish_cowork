@@ -21,6 +21,7 @@ import app.waynechen.stylish.data.source.task.PostNewAvatarTask;
 import app.waynechen.stylish.data.source.task.UserSignInWithTokenTask;
 import app.waynechen.stylish.data.source.task.UserSignInNativeTask;
 import app.waynechen.stylish.data.source.task.UserSignUpTask;
+import app.waynechen.stylish.data.source.task.getFavoritesListTask;
 import app.waynechen.stylish.util.Constants;
 
 import java.io.IOException;
@@ -46,8 +47,6 @@ public class StylishRemoteDataSource implements StylishDataSource {
 
     private StylishRemoteDataSource() {
     }
-
-
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -150,6 +149,11 @@ public class StylishRemoteDataSource implements StylishDataSource {
             }
 
         }.execute();
+    }
+
+    @Override
+    public void getFavoriteList(String token, FavoriteListCallback callback) {
+        new getFavoritesListTask(token, callback).execute();
     }
 
     @Override

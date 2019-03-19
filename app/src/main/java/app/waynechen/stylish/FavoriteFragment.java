@@ -12,9 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import app.waynechen.stylish.catalog.item.CatalogItemContract;
+import java.util.ArrayList;
+
 import app.waynechen.stylish.component.GridSpacingItemDecoration;
-import app.waynechen.stylish.data.source.bean.GetProductList;
+import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.util.Constants;
 
 import static app.waynechen.stylish.MainMvpController.ACCESSORIES;
@@ -35,7 +36,8 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
     private String mItemType;
     private int mPaging;
 
-    public FavoriteFragment() {}
+    public FavoriteFragment() {
+    }
 
     public static FavoriteFragment newInstance() {
         return new FavoriteFragment();
@@ -45,7 +47,7 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setPaging(FIRST_PAGING);
-        mFavoriteItemAdapter = new FavoriteItemAdapter(mPresenter, mItemType);
+        mFavoriteItemAdapter = new FavoriteItemAdapter(mPresenter);
     }
 
     @Override
@@ -104,28 +106,14 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mPresenter.loadProductsData();
 
-        if (getPaging() == FIRST_PAGING) {
-
-            switch (mItemType) {
-                case WOMEN:
-                    mPresenter.loadWomenProductsData();
-                    break;
-                case MEN:
-                    mPresenter.loadMenProductsData();
-                    break;
-                case ACCESSORIES:
-                    mPresenter.loadAccessoriesProductsData();
-                    break;
-                default:
-            }
-        }
     }
 
     @Override
-    public void showProductsUi(GetProductList bean) {
-        setPaging(bean.getPaging());
-        mFavoriteItemAdapter.updateData(bean.getProducts());
+    public void showProductsUi(ArrayList<Product> bean) {
+//        setPaging(bean.getPaging());
+        mFavoriteItemAdapter.updateData(bean);
     }
 
     @Override
