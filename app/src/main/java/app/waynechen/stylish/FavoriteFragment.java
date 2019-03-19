@@ -27,9 +27,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
-public class FavoriteFragment extends Fragment implements CatalogItemContract.View {
+public class FavoriteFragment extends Fragment implements FavoriteItemContract.View {
 
-    private CatalogItemContract.Presenter mPresenter;
+    private FavoriteItemContract.Presenter mPresenter;
     private FavoriteItemAdapter mFavoriteItemAdapter;
 
     private String mItemType;
@@ -54,7 +54,7 @@ public class FavoriteFragment extends Fragment implements CatalogItemContract.Vi
     }
 
     @Override
-    public void setPresenter(CatalogItemContract.Presenter presenter) {
+    public void setPresenter(FavoriteItemContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 

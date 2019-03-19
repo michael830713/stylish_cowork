@@ -21,11 +21,11 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     private static final int TYPE_LOADING   = 0;
     private static final int TYPE_GRID      = 0x01;
 
-    private CatalogItemContract.Presenter mPresenter;
+    private FavoriteItemContract.Presenter mPresenter;
     private String mItemType;
     private ArrayList<Product> mProducts = new ArrayList<>();
 
-    public FavoriteItemAdapter(CatalogItemContract.Presenter presenter, @MainMvpController.CatalogItem String itemType) {
+    public FavoriteItemAdapter(FavoriteItemContract.Presenter presenter, @MainMvpController.CatalogItem String itemType) {
         mPresenter = presenter;
         mItemType = itemType;
     }
