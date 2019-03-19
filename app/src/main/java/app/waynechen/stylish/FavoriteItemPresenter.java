@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import app.waynechen.stylish.data.Favorite;
 import app.waynechen.stylish.data.Product;
+import app.waynechen.stylish.data.ProductForGson;
 import app.waynechen.stylish.data.source.StylishDataSource;
 import app.waynechen.stylish.data.source.StylishRepository;
 import app.waynechen.stylish.util.UserManager;
@@ -47,11 +48,25 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
             mStylishRepository.getFavoriteList(UserManager.getInstance().getUserToken(), new StylishDataSource.FavoriteListCallback() {
                 @Override
                 public void onCompleted(Favorite bean) {
-                    bean.getData().getIds();
+                    ArrayList<ProductForGson> products = new ArrayList<ProductForGson>();
+                    String[] ids = bean.getData().getIds();
+                    for (int i = 0; i < ids.length; i++) {
+                        String id = ids[i];
+                        mStylishRepository.getFavoriteItem(id, new StylishDataSource.FavoriteItemCallback() {
+                            @Override
+                            public void onCompleted(ProductForGson bean) {
+                                products.add(bean);
+                            }
 
+                            @Override
+                            public void onError(String errorMessage) {
+
+                            }
+                        });
+                    }
 
                     setLoadingData(false);
-                    setProductsData(bean);
+                    setProductsData(products);
                 }
 
                 @Override
@@ -83,7 +98,7 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
     }
 
     @Override
-    public void setProductsData(ArrayList<Product> bean) {
+    public void setProductsData(ArrayList<ProductForGson> bean) {
         mCatalogItemView.showProductsUi(bean);
     }
 
@@ -97,7 +112,7 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
     }
 
     @Override
-    public void openDetail(Product product) {
+    public void openDetail(ProductForGson product) {
 
     }
 

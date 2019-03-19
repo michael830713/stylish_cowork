@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import app.waynechen.stylish.catalog.item.CatalogItemContract;
 import app.waynechen.stylish.data.Product;
+import app.waynechen.stylish.data.ProductForGson;
 import app.waynechen.stylish.util.ImageManager;
 
 /**
@@ -22,7 +23,7 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     private static final int TYPE_GRID      = 0x01;
 
     private FavoriteItemContract.Presenter mPresenter;
-    private ArrayList<Product> mProducts = new ArrayList<>();
+    private ArrayList<ProductForGson> mProducts = new ArrayList<>();
 
     public FavoriteItemAdapter(FavoriteItemContract.Presenter presenter) {
         mPresenter = presenter;
@@ -51,16 +52,16 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void bindGridViewHolder(GridViewHolder holder, Product product) {
+    private void bindGridViewHolder(GridViewHolder holder, ProductForGson product) {
         // Set main image
-        ImageManager.getInstance().setImageByUrl(holder.getImageMain(), product.getMainImage());
+        ImageManager.getInstance().setImageByUrl(holder.getImageMain(), product.getData().getMain_image());
 
         // Set title
-        holder.getTextTitle().setText(product.getTitle());
+        holder.getTextTitle().setText(product.getData().getTitle());
 
         // Set description
         holder.getTextPrice().setText(
-                Stylish.getAppContext().getString(R.string.nt_dollars_, product.getPrice()));
+                Stylish.getAppContext().getString(R.string.nt_dollars_, product.getData().getPrice()));
     }
 
 
@@ -112,7 +113,7 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void updateData(ArrayList<Product> products) {
+    public void updateData(ArrayList<ProductForGson> products) {
         mProducts.addAll(products);
         notifyDataSetChanged();
     }

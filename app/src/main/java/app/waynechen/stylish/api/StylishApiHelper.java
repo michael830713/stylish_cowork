@@ -76,6 +76,7 @@ public class StylishApiHelper {
     private static final String PRODUCTS_WOMEN_PATH = PRODUCTS_PATH + WOMEN_PATH;
     private static final String PRODUCTS_MEN_PATH = PRODUCTS_PATH + MEN_PATH;
     private static final String PRODUCTS_ACCESSORIES_PATH = PRODUCTS_PATH + ACCESSORIES_PATH;
+    private static final String PRODUCTS_DETAIL_PATH = PRODUCTS_PATH + "details?id=";
     private static final String PAGING_PATH = "?paging=";
     private static final String ID_PATH = "?id=";
     private static final String USER_PATH = "/user";
@@ -99,6 +100,7 @@ public class StylishApiHelper {
     private static final String GET_PRODUCTS_WOMEN_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_WOMEN_PATH;
     private static final String GET_PRODUCTS_MEN_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_MEN_PATH;
     private static final String GET_PRODUCTS_ACCESSORIES_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_ACCESSORIES_PATH;
+    private static final String GET_PRODUCTS_URL = HOST + API_PATH + API_VERSION_PATH + PRODUCTS_DETAIL_PATH;
     private static final String POST_USER_SIGNIN_URL = HOST + API_PATH + API_VERSION_PATH + USER_SIGNIN_PATH;
     private static final String POST_USER_SIGNUP_URL = HOST + API_PATH + API_VERSION_PATH + USER_SIGNUP_PATH;
     private static final String GET_USER_PROFILE_URL = DAVIDADM_HOST + API_PATH + API_VERSION_PATH + USER_PROFILE_PATH;
@@ -302,6 +304,21 @@ public class StylishApiHelper {
         try {
             String results = new StylishClient()
                     .get(url, headers);
+            return results;
+        } catch (StylishInvalidTokenException e) {
+            throw new StylishInvalidTokenException(e.getMessage());
+        } catch (StylishException e) {
+            e.printStackTrace();
+            throw new StylishException(e.getMessage());
+        }
+    }
+
+    public static String getFavoriteItem(@NonNull String id) throws IOException, StylishException {
+
+        String url = GET_PRODUCTS_URL ;
+        try {
+            String results = new StylishClient()
+                    .get(url, null);
             return results;
         } catch (StylishInvalidTokenException e) {
             throw new StylishInvalidTokenException(e.getMessage());

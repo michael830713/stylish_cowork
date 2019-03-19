@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import app.waynechen.stylish.component.GridSpacingItemDecoration;
 import app.waynechen.stylish.data.Product;
+import app.waynechen.stylish.data.ProductForGson;
 import app.waynechen.stylish.util.Constants;
 
 import static app.waynechen.stylish.MainMvpController.ACCESSORIES;
@@ -111,7 +112,7 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
     }
 
     @Override
-    public void showProductsUi(ArrayList<Product> bean) {
+    public void showProductsUi(ArrayList<ProductForGson> bean) {
 //        setPaging(bean.getPaging());
         mFavoriteItemAdapter.updateData(bean);
     }

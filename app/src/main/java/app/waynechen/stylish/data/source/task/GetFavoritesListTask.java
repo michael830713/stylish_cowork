@@ -17,13 +17,13 @@ import app.waynechen.stylish.util.Constants;
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
-public class getFavoritesListTask extends AsyncTask<Void, Void, String> {
+public class GetFavoritesListTask extends AsyncTask<Void, Void, String> {
 
     private String mErrorMessage;
     private String mToken;
     private StylishDataSource.FavoriteListCallback mCallback;
 
-    public getFavoritesListTask(String token, StylishDataSource.FavoriteListCallback callback) {
+    public GetFavoritesListTask(String token, StylishDataSource.FavoriteListCallback callback) {
         mErrorMessage = "";
         mToken = token;
         mCallback = callback;

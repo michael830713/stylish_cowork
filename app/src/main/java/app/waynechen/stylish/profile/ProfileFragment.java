@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     private ImageView mImageAvatar;
     private TextView mTextName;
     private TextView mTextInformation;
+    private ImageButton mImageButtonFavorite;
 
     public ProfileFragment() {
         // Requires empty public constructor
@@ -75,6 +77,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mImageAvatar.setOutlineProvider(new ProfileAvatarOutlineProvider());
         mTextName = root.findViewById(R.id.text_profile_name);
         mTextInformation = root.findViewById(R.id.text_profile_info);
+        mImageButtonFavorite=root.findViewById(R.id.button_profile_starred);
 
         return root;
     }
@@ -95,6 +98,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mImageAvatar.setOnClickListener(v -> {
             Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             getActivity().startActivityForResult(gallery, PICK_IMAGE);
+        });
+        mImageButtonFavorite.setOnClickListener(v -> {
 
         });
     }

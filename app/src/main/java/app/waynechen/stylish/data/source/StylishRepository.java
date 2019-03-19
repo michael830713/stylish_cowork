@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.data.CheckOutInfo;
 import app.waynechen.stylish.data.Favorite;
+import app.waynechen.stylish.data.ProductForGson;
 import app.waynechen.stylish.data.User;
 import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
@@ -85,6 +86,21 @@ public class StylishRepository implements StylishDataSource {
         mStylishRemoteDataSource.getFavoriteList(token, new FavoriteListCallback() {
             @Override
             public void onCompleted(Favorite bean) {
+                callback.onCompleted(bean);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                callback.onError(errorMessage);
+            }
+        });
+    }
+
+    @Override
+    public void getFavoriteItem(String id, FavoriteItemCallback callback) {
+        mStylishRemoteDataSource.getFavoriteItem(id, new FavoriteItemCallback() {
+            @Override
+            public void onCompleted(ProductForGson bean) {
                 callback.onCompleted(bean);
             }
 

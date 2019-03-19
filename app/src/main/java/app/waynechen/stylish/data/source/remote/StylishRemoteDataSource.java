@@ -6,8 +6,6 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import app.waynechen.stylish.MainMvpController;
 import app.waynechen.stylish.api.StylishApiHelper;
 import app.waynechen.stylish.api.exception.StylishException;
@@ -16,12 +14,13 @@ import app.waynechen.stylish.data.CheckOutInfo;
 import app.waynechen.stylish.data.source.StylishDataSource;
 import app.waynechen.stylish.data.source.bean.GetMarketingHots;
 import app.waynechen.stylish.data.source.bean.GetProductList;
+import app.waynechen.stylish.data.source.task.GetFavoritesItemTask;
 import app.waynechen.stylish.data.source.task.GetUserProfileTask;
 import app.waynechen.stylish.data.source.task.PostNewAvatarTask;
 import app.waynechen.stylish.data.source.task.UserSignInWithTokenTask;
 import app.waynechen.stylish.data.source.task.UserSignInNativeTask;
 import app.waynechen.stylish.data.source.task.UserSignUpTask;
-import app.waynechen.stylish.data.source.task.getFavoritesListTask;
+import app.waynechen.stylish.data.source.task.GetFavoritesListTask;
 import app.waynechen.stylish.util.Constants;
 
 import java.io.IOException;
@@ -153,7 +152,12 @@ public class StylishRemoteDataSource implements StylishDataSource {
 
     @Override
     public void getFavoriteList(String token, FavoriteListCallback callback) {
-        new getFavoritesListTask(token, callback).execute();
+        new GetFavoritesListTask(token, callback).execute();
+    }
+
+    @Override
+    public void getFavoriteItem(String id, FavoriteItemCallback callback) {
+        new GetFavoritesItemTask(id, callback).execute();
     }
 
     @Override
