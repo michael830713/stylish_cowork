@@ -103,6 +103,11 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
     }
 
     @Override
+    public FavoriteFragment findFavorite() {
+        return null;
+    }
+
+    @Override
     public boolean isCatalogItemHasNextPaging(String itemType) {
         return mCatalogItemView.hasNextPaging();
     }

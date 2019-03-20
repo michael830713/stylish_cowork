@@ -436,6 +436,11 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
     }
 
     @Override
+    public FavoriteFragment findFavoriteView() {
+        return mMainMvpController.findOrCreateFavoriteView();
+    }
+
+    @Override
     public void switchProfileUiInitiative() {
         mBottomNavigation.setSelectedItemId(R.id.navigation_profile);
     }

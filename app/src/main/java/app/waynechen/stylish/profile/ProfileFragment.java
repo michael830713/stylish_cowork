@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import app.waynechen.stylish.FavoriteFragment;
 import app.waynechen.stylish.R;
 import app.waynechen.stylish.api.StylishApiHelper;
 import app.waynechen.stylish.component.ProfileAvatarOutlineProvider;
@@ -38,7 +41,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     private ImageView mImageAvatar;
     private TextView mTextName;
     private TextView mTextInformation;
-    private ImageButton mImageButtonFavorite;
+    private Button mImageButtonFavorite;
 
     public ProfileFragment() {
         // Requires empty public constructor
@@ -77,7 +80,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mImageAvatar.setOutlineProvider(new ProfileAvatarOutlineProvider());
         mTextName = root.findViewById(R.id.text_profile_name);
         mTextInformation = root.findViewById(R.id.text_profile_info);
-        mImageButtonFavorite=root.findViewById(R.id.button_profile_starred);
+        mImageButtonFavorite = root.findViewById(R.id.button_profile_starred);
 
         return root;
     }
@@ -101,6 +104,25 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         });
         mImageButtonFavorite.setOnClickListener(v -> {
 
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            FavoriteFragment fragment = FavoriteFragment.newInstance();
+
+            for (Fragment element : getFragmentManager().getFragments()) {
+                if (!element.isHidden()) {
+                    transaction.hide(element);
+                    transaction.addToBackStack(null);
+                    break;
+                }
+            }
+
+            if (fragment.isAdded()) {
+                transaction.show(fragment);
+            } else {
+                transaction.add(R.id.layout_main_container, fragment);
+            }
+
+            transaction.commit();
         });
     }
 

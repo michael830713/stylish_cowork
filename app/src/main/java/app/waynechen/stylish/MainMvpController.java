@@ -53,7 +53,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by Wayne Chen on Feb. 2019.
- *
+ * <p>
  * Class that creates fragments (MVP views) and makes the necessary connections between them.
  */
 public class MainMvpController {
@@ -61,40 +61,45 @@ public class MainMvpController {
     private final FragmentActivity mActivity;
     private MainPresenter mMainPresenter;
 
-    private HotsPresenter    mHotsPresenter;
+    private HotsPresenter mHotsPresenter;
     private CatalogPresenter mCatalogPresenter;
-    private CartPresenter    mCartPresenter;
+    private CartPresenter mCartPresenter;
     private ProfilePresenter mProfilePresenter;
 
     private CatalogItemPresenter mCatalogWomenPresenter;
     private CatalogItemPresenter mCatalogMenPresenter;
     private CatalogItemPresenter mCatalogAccessoriesPresenter;
+    private FavoriteItemPresenter mFavoriteItemPresenter;
 
-    private DetailPresenter   mDetailPresenter;
+    private DetailPresenter mDetailPresenter;
     private Add2CartPresenter mAdd2CartPresenter;
 
-    private PaymentPresenter         mPaymentPresenter;
+    private PaymentPresenter mPaymentPresenter;
     private CheckOutSuccessPresenter mCheckOutSuccessPresenter;
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
             HOTS, CATALOG, CART, PROFILE, DETAIL, PAYMENT
     })
-    public @interface FragmentType {}
-    static final String HOTS    = "HOTS";
+    public @interface FragmentType {
+    }
+
+    static final String HOTS = "HOTS";
     static final String CATALOG = "CATALOG";
-    static final String CART    = "CART";
+    static final String CART = "CART";
     static final String PROFILE = "PROFILE";
-    static final String DETAIL  = "DETAIL";
+    static final String DETAIL = "DETAIL";
     static final String PAYMENT = "PAYMENT";
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
             WOMEN, MEN, ACCESSORIES
     })
-    public @interface CatalogItem {}
-    public static final String WOMEN       = "WOMEN";
-    public static final String MEN         = "MEN";
+    public @interface CatalogItem {
+    }
+
+    public static final String WOMEN = "WOMEN";
+    public static final String MEN = "MEN";
     public static final String ACCESSORIES = "ACCESSORIES";
 
     private MainMvpController(@NonNull FragmentActivity activity) {
@@ -103,6 +108,7 @@ public class MainMvpController {
 
     /**
      * Creates a controller.
+     *
      * @param activity the context activity
      * @return a MainMvpController
      */
@@ -249,8 +255,23 @@ public class MainMvpController {
         }
     }
 
+    FavoriteFragment findOrCreateFavoriteView() {
+
+        FavoriteFragment fragment = FavoriteFragment.newInstance();
+
+        mFavoriteItemPresenter = new FavoriteItemPresenter(StylishRepository.getInstance(
+                StylishRemoteDataSource.getInstance(),
+                StylishLocalDataSource.getInstance()), fragment);
+        fragment.setPresenter(mMainPresenter);
+
+        mMainPresenter.setFavoritePresenter(mFavoriteItemPresenter);
+
+        return fragment;
+    }
+
     /**
      * Women View
+     *
      * @return CatalogItemFragment: Women Fragment
      */
     CatalogItemFragment findOrCreateWomenView() {
@@ -269,6 +290,7 @@ public class MainMvpController {
 
     /**
      * Men View
+     *
      * @return CatalogItemFragment: Men Fragment
      */
     CatalogItemFragment findOrCreateMenView() {
@@ -287,6 +309,7 @@ public class MainMvpController {
 
     /**
      * Accessories View
+     *
      * @return CatalogItemFragment: Accessories Fragment
      */
     CatalogItemFragment findOrCreateAccessoriesView() {
@@ -305,6 +328,7 @@ public class MainMvpController {
 
     /**
      * Hots Fragment
+     *
      * @return HotsFragment
      */
     @NonNull
@@ -325,6 +349,7 @@ public class MainMvpController {
 
     /**
      * Catalog Fragment
+     *
      * @return CatalogFragment
      */
     @NonNull
@@ -345,6 +370,7 @@ public class MainMvpController {
 
     /**
      * Catalog Item Fragment: Women, Men, Accessories
+     *
      * @param itemType: @CatalogItem
      * @return CatalogItemFragment
      */
@@ -364,6 +390,7 @@ public class MainMvpController {
 
     /**
      * Profile Fragment
+     *
      * @return ProfileFragment
      */
     @NonNull
@@ -384,6 +411,7 @@ public class MainMvpController {
 
     /**
      * Cart Fragment
+     *
      * @return CartFragment
      */
     @NonNull
@@ -404,6 +432,7 @@ public class MainMvpController {
 
     /**
      * Payment Fragment
+     *
      * @return PaymentFragment
      */
     @NonNull
@@ -424,6 +453,7 @@ public class MainMvpController {
 
     /**
      * Detail Fragment
+     *
      * @return DetailFragment
      */
     @NonNull
@@ -439,6 +469,7 @@ public class MainMvpController {
 
     /**
      * Create Main Presenter
+     *
      * @return MainPresenter
      */
     private MainPresenter createMainPresenter() {

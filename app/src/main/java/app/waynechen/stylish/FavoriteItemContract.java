@@ -47,6 +47,8 @@ public interface FavoriteItemContract {
 
         void setProductsData(ArrayList<ProductForGson> bean);
 
+        FavoriteFragment findFavorite();
+
 
         boolean isCatalogItemHasNextPaging(@MainMvpController.CatalogItem String itemType);
 

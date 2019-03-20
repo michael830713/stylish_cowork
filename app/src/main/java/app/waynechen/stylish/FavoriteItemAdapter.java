@@ -32,6 +32,8 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        mPresenter.findFavorite();
+
         if (viewType == TYPE_GRID) {
 
             return new GridViewHolder(LayoutInflater.from(parent.getContext())
@@ -69,6 +71,7 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return mProducts.size();
     }
+
 
 
     @Override

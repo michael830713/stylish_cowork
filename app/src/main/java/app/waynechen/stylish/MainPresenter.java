@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+
 import app.waynechen.stylish.cart.CartContract;
 import app.waynechen.stylish.cart.CartPresenter;
 import app.waynechen.stylish.catalog.CatalogContract;
@@ -31,6 +33,7 @@ import app.waynechen.stylish.catalog.item.CatalogItemFragment;
 import app.waynechen.stylish.catalog.item.CatalogItemPresenter;
 import app.waynechen.stylish.data.Color;
 import app.waynechen.stylish.data.Product;
+import app.waynechen.stylish.data.ProductForGson;
 import app.waynechen.stylish.data.Variant;
 import app.waynechen.stylish.data.source.StylishRepository;
 import app.waynechen.stylish.data.source.bean.GetMarketingHots;
@@ -53,13 +56,13 @@ import app.waynechen.stylish.util.UserManager;
 
 /**
  * Created by Wayne Chen on Feb. 2019.
- *
+ * <p>
  * Presenter for the tablet screen that can act as a Tasks Presenter and a Task Detail Presenter.
  */
 public class MainPresenter implements MainContract.Presenter, HotsContract.Presenter,
         CatalogContract.Presenter, CatalogItemContract.Presenter,
-            ProfileContract.Presenter, DetailContract.Presenter, Add2CartContract.Presenter,
-        CartContract.Presenter, PaymentContract.Presenter, CheckOutSuccessContract.Presenter {
+        ProfileContract.Presenter, DetailContract.Presenter, Add2CartContract.Presenter,
+        CartContract.Presenter, PaymentContract.Presenter, CheckOutSuccessContract.Presenter, FavoriteItemContract.Presenter {
 
     private final StylishRepository mStylishRepository;
     private MainContract.View mMainView;
@@ -70,6 +73,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     private CatalogItemPresenter mCatalogWomenPresenter;
     private CatalogItemPresenter mCatalogMenPresenter;
     private CatalogItemPresenter mCatalogAccessoriesPresenter;
+    private FavoriteItemPresenter mFavoriteItemPresenter;
 
     private ProfilePresenter mProfilePresenter;
     private DetailPresenter mDetailPresenter;
@@ -107,6 +111,10 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
         mCatalogAccessoriesPresenter = checkNotNull(catalogAccessoriesPresenter);
     }
 
+    void setFavoritePresenter(FavoriteItemPresenter favoriteItemPresenter) {
+        mFavoriteItemPresenter = checkNotNull(favoriteItemPresenter);
+    }
+
     void setProfilePresenter(ProfilePresenter profilePresenter) {
         mProfilePresenter = checkNotNull(profilePresenter);
     }
@@ -132,13 +140,26 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void result(int requestCode, int resultCode) {}
+    public void result(int requestCode, int resultCode) {
+    }
 
     @Override
-    public void result(int requestCode, int resultCode, Intent data) {}
+    public void loadProductsData() {
+        mFavoriteItemPresenter.loadProductsData();
+    }
 
     @Override
-    public void start() {}
+    public void setProductsData(ArrayList<ProductForGson> bean) {
+
+    }
+
+    @Override
+    public void result(int requestCode, int resultCode, Intent data) {
+    }
+
+    @Override
+    public void start() {
+    }
     /* ------------------------------------------------------------------------------------------ */
     /* Payment Only */
 
@@ -256,6 +277,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Set Add2Cart Product
+     *
      * @param product
      */
     @Override
@@ -310,6 +332,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Set Detail Product
+     *
      * @param product
      */
     @Override
@@ -333,6 +356,12 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     public CatalogItemFragment findAccessories() {
         return mMainView.findAccessoriesView();
     }
+
+    @Override
+    public FavoriteFragment findFavorite() {
+        return mMainView.findFavoriteView();
+    }
+
     /* ------------------------------------------------------------------------------------------ */
     /* General */
 
@@ -422,6 +451,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Set Hots
+     *
      * @param bean
      */
     @Override
@@ -488,6 +518,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Set Accessories Products
+     *
      * @param bean
      */
     @Override
@@ -497,6 +528,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Check that CatalogItem has next paging.
+     *
      * @param itemType
      * @return
      */
@@ -516,6 +548,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * When CatalogItem scroll to bottom.
+     *
      * @param itemType
      */
     @Override
@@ -532,6 +565,11 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
                 break;
             default:
         }
+    }
+
+    @Override
+    public void openDetail(ProductForGson product) {
+
     }
     /* ------------------------------------------------------------------------------------------ */
     /* Profile Only */
@@ -556,6 +594,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Open Detail
+     *
      * @param product
      */
     @Override
@@ -581,6 +620,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
 
     /**
      * Open Profile
+     *
      * @return: it for BottomNavigation
      */
     @Override
@@ -625,14 +665,13 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
         mMainView.switchHotsUiInitiative();
     }
 
-
     @Override
     public void showLoginDialog(int loginFrom) {
         mMainView.openLoginUi(loginFrom);
     }
 
     @Override
-    public void setGalleryImagePicked(Uri imageUri,String realPath) {
+    public void setGalleryImagePicked(Uri imageUri, String realPath) {
 
     }
 
@@ -680,7 +719,8 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
                 }
 
                 @Override
-                public void onFail(String errorMessage) {}
+                public void onFail(String errorMessage) {
+                }
 
                 @Override
                 public void onInvalidToken(String errorMessage) {
@@ -699,7 +739,7 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void onGalleryImagePicked(Uri imageUri,String realPath) {
-        mProfilePresenter.setGalleryImagePicked(imageUri,realPath);
+    public void onGalleryImagePicked(Uri imageUri, String realPath) {
+        mProfilePresenter.setGalleryImagePicked(imageUri, realPath);
     }
 }
