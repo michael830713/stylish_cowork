@@ -52,20 +52,25 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
                 public void onCompleted(Favorite bean) {
                     mProducts = new ArrayList<ProductForGson>();
                     String[] ids = bean.getData().getIds();
-                    for (int i = 0; i < ids.length; i++) {
-                        String id = ids[i];
-                        mStylishRepository.getFavoriteItem(id, new StylishDataSource.FavoriteItemCallback() {
-                            @Override
-                            public void onCompleted(ProductForGson bean) {
-                                mProducts.add(bean);
-                            }
 
-                            @Override
-                            public void onError(String errorMessage) {
-                                Log.d(TAG, "onError: " + errorMessage);
-                            }
-                        });
-                    }
+
+                    setLoadingData(false);
+                    setProductsData(ids);
+
+//                    for (int i = 0; i < ids.length; i++) {
+//                        String id = ids[i];
+//                        mStylishRepository.getFavoriteItem(id, new StylishDataSource.FavoriteItemCallback() {
+//                            @Override
+//                            public void onCompleted(ProductForGson bean) {
+//                                mProducts.add(bean);
+//                            }
+//
+//                            @Override
+//                            public void onError(String errorMessage) {
+//                                Log.d(TAG, "onError: " + errorMessage);
+//                            }
+//                        });
+//                    }
 
                 }
 
@@ -74,8 +79,7 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
 
                 }
             });
-            setLoadingData(false);
-            setProductsData(mProducts);
+
         }
 
 //        if (!isLoadingData() && mFavoriteItemView.hasNextPaging()) {
@@ -99,7 +103,7 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
     }
 
     @Override
-    public void setProductsData(ArrayList<ProductForGson> bean) {
+    public void setProductsData(String[] bean) {
         mFavoriteItemView.showProductsUi(bean);
     }
 

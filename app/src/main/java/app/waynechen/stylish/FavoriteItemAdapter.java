@@ -1,17 +1,16 @@
 package app.waynechen.stylish;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import app.waynechen.stylish.catalog.item.CatalogItemContract;
-import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.data.ProductForGson;
+import app.waynechen.stylish.data.source.StylishDataSource;
+import app.waynechen.stylish.data.source.task.GetFavoritesItemTask;
 import app.waynechen.stylish.util.ImageManager;
 
 /**
@@ -19,11 +18,14 @@ import app.waynechen.stylish.util.ImageManager;
  */
 public class FavoriteItemAdapter extends RecyclerView.Adapter {
 
-    private static final int TYPE_LOADING   = 0;
-    private static final int TYPE_GRID      = 0x01;
+    private static final String TAG="FavoriteItemAdapter";
+
+    private static final int TYPE_LOADING = 0;
+    private static final int TYPE_GRID = 0x01;
 
     private FavoriteItemContract.Presenter mPresenter;
-    private ArrayList<ProductForGson> mProducts = new ArrayList<>();
+    private ProductForGson mProduct = new ProductForGson();
+    private String[] mIds = new String[]{};
 
     public FavoriteItemAdapter(FavoriteItemContract.Presenter presenter) {
         mPresenter = presenter;
@@ -32,11 +34,10 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-
         if (viewType == TYPE_GRID) {
 
             return new GridViewHolder(LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.item_catalog_grid, parent, false));
+                    .inflate(R.layout.item_catalog_grid, parent, false));
         } else {
 
             return new LoadingViewHolder(LayoutInflater.from(parent.getContext())
@@ -49,33 +50,48 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
 
         if (holder instanceof GridViewHolder) {
 
-            bindGridViewHolder((GridViewHolder) holder, mProducts.get(position));
+            bindGridViewHolder((GridViewHolder) holder, mIds[position]);
         }
     }
 
-    private void bindGridViewHolder(GridViewHolder holder, ProductForGson product) {
+    private void bindGridViewHolder(GridViewHolder holder, String id) {
+
+        new GetFavoritesItemTask(id, new StylishDataSource.FavoriteItemCallback() {
+            @Override
+            public void onCompleted(ProductForGson bean) {
+                mProduct = bean;
+                ImageManager.getInstance().setImageByUrl(holder.getImageMain(), bean.getData().getMain_image());
+                holder.getTextTitle().setText(bean.getData().getTitle());
+                holder.getTextPrice().setText(
+                        Stylish.getAppContext().getString(R.string.nt_dollars_, bean.getData().getPrice()));
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d(TAG, "onError: "+errorMessage);
+            }
+        }).execute();
+
         // Set main image
-        ImageManager.getInstance().setImageByUrl(holder.getImageMain(), product.getData().getMain_image());
+//        ImageManager.getInstance().setImageByUrl(holder.getImageMain(), product.getData().getMain_image());
 
         // Set title
-        holder.getTextTitle().setText(product.getData().getTitle());
+//        holder.getTextTitle().setText(product.getData().getTitle());
 
         // Set description
-        holder.getTextPrice().setText(
-                Stylish.getAppContext().getString(R.string.nt_dollars_, product.getData().getPrice()));
-    }
+//        holder.getTextPrice().setText(
+//                Stylish.getAppContext().getString(R.string.nt_dollars_, product.getData().getPrice()));
 
+    }
 
     @Override
     public int getItemCount() {
-        return mProducts.size();
+        return mIds.length;
     }
-
-
 
     @Override
     public int getItemViewType(int position) {
-        return (position < mProducts.size()) ? TYPE_GRID : TYPE_LOADING;
+        return (position < mIds.length) ? TYPE_GRID : TYPE_LOADING;
     }
 
     private class GridViewHolder extends RecyclerView.ViewHolder {
@@ -88,7 +104,7 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             itemView.findViewById(R.id.layout_catalog_grid).setOnClickListener(view -> {
-                mPresenter.openDetail(mProducts.get(getAdapterPosition()));
+                mPresenter.openDetail(mProduct);
             });
 
             mImageMain = itemView.findViewById(R.id.image_catalog_main);
@@ -115,8 +131,8 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void updateData(ArrayList<ProductForGson> products) {
-        mProducts.addAll(products);
+    public void updateData(String[] ids) {
+        mIds = ids;
         notifyDataSetChanged();
     }
 }

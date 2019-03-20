@@ -96,7 +96,7 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
 
                 if (!recyclerView.canScrollVertically(1)) {
                     Log.d(Constants.TAG, "Scroll to bottom");
-                    mPresenter.onCatalogItemScrollToBottom(mItemType);
+//                    mPresenter.onCatalogItemScrollToBottom(mItemType);
                 }
             }
         });
@@ -113,7 +113,7 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
     }
 
     @Override
-    public void showProductsUi(ArrayList<ProductForGson> bean) {
+    public void showProductsUi(String[] bean) {
 //        setPaging(bean.getPaging());
         mFavoriteItemAdapter.updateData(bean);
     }

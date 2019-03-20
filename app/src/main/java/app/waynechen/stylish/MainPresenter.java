@@ -149,9 +149,11 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     }
 
     @Override
-    public void setProductsData(ArrayList<ProductForGson> bean) {
+    public void setProductsData(String[] bean) {
 
     }
+
+
 
     @Override
     public void result(int requestCode, int resultCode, Intent data) {

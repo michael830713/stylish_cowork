@@ -31,7 +31,7 @@ public interface FavoriteItemContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showProductsUi(ArrayList<ProductForGson> bean);
+        void showProductsUi(String[] bean);
 
         boolean hasNextPaging();
 
@@ -45,7 +45,7 @@ public interface FavoriteItemContract {
 
         void loadProductsData();
 
-        void setProductsData(ArrayList<ProductForGson> bean);
+        void setProductsData(String[] bean);
 
         boolean isCatalogItemHasNextPaging(@MainMvpController.CatalogItem String itemType);
 
