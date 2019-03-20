@@ -1,11 +1,11 @@
 package app.waynechen.stylish;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import app.waynechen.stylish.data.Favorite;
-import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.data.ProductForGson;
 import app.waynechen.stylish.data.source.StylishDataSource;
 import app.waynechen.stylish.data.source.StylishRepository;
@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
 
+    private static final String TAG = "FavoriteItemPresenter";
     private final StylishRepository mStylishRepository;
-    private final FavoriteItemContract.View mCatalogItemView;
+    private final FavoriteItemContract.View mFavoriteItemView;
+    private ArrayList<ProductForGson> mProducts;
 
     private boolean mLoadingData;
 
@@ -27,9 +29,9 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
             @NonNull StylishRepository stylishRepository,
             @NonNull FavoriteItemContract.View catalogItemView) {
         mStylishRepository = checkNotNull(stylishRepository, "stylishRepository cannot be null!");
-        mCatalogItemView = checkNotNull(catalogItemView, "catalogItemView cannot be null!");
+        mFavoriteItemView = checkNotNull(catalogItemView, "catalogItemView cannot be null!");
 
-        mCatalogItemView.setPresenter(this);
+        mFavoriteItemView.setPresenter(this);
     }
 
     @Override
@@ -48,25 +50,23 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
             mStylishRepository.getFavoriteList(UserManager.getInstance().getUserToken(), new StylishDataSource.FavoriteListCallback() {
                 @Override
                 public void onCompleted(Favorite bean) {
-                    ArrayList<ProductForGson> products = new ArrayList<ProductForGson>();
+                    mProducts = new ArrayList<ProductForGson>();
                     String[] ids = bean.getData().getIds();
                     for (int i = 0; i < ids.length; i++) {
                         String id = ids[i];
                         mStylishRepository.getFavoriteItem(id, new StylishDataSource.FavoriteItemCallback() {
                             @Override
                             public void onCompleted(ProductForGson bean) {
-                                products.add(bean);
+                                mProducts.add(bean);
                             }
 
                             @Override
                             public void onError(String errorMessage) {
-
+                                Log.d(TAG, "onError: " + errorMessage);
                             }
                         });
                     }
 
-                    setLoadingData(false);
-                    setProductsData(products);
                 }
 
                 @Override
@@ -74,13 +74,14 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
 
                 }
             });
-
+            setLoadingData(false);
+            setProductsData(mProducts);
         }
 
-//        if (!isLoadingData() && mCatalogItemView.hasNextPaging()) {
+//        if (!isLoadingData() && mFavoriteItemView.hasNextPaging()) {
 
 //            setLoadingData(true);
-//            mStylishRepository.getProductList(WOMEN, mCatalogItemView.getPaging(),
+//            mStylishRepository.getProductList(WOMEN, mFavoriteItemView.getPaging(),
 //                    new StylishDataSource.GetProductListCallback() {
 //                        @Override
 //                        public void onCompleted(GetProductList bean) {
@@ -99,17 +100,12 @@ public class FavoriteItemPresenter implements FavoriteItemContract.Presenter {
 
     @Override
     public void setProductsData(ArrayList<ProductForGson> bean) {
-        mCatalogItemView.showProductsUi(bean);
-    }
-
-    @Override
-    public FavoriteFragment findFavorite() {
-        return null;
+        mFavoriteItemView.showProductsUi(bean);
     }
 
     @Override
     public boolean isCatalogItemHasNextPaging(String itemType) {
-        return mCatalogItemView.hasNextPaging();
+        return mFavoriteItemView.hasNextPaging();
     }
 
     @Override

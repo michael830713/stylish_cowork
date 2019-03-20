@@ -1,9 +1,11 @@
 package app.waynechen.stylish.data.source;
 
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -20,6 +22,8 @@ import app.waynechen.stylish.data.source.bean.UserSignIn;
  * Created by Wayne Chen on Feb. 2019.
  */
 public class StylishRepository implements StylishDataSource {
+
+    private static final String TAG="StylishRepository";
 
     private static StylishRepository INSTANCE = null;
 
@@ -98,10 +102,12 @@ public class StylishRepository implements StylishDataSource {
 
     @Override
     public void getFavoriteItem(String id, FavoriteItemCallback callback) {
+
         mStylishRemoteDataSource.getFavoriteItem(id, new FavoriteItemCallback() {
             @Override
             public void onCompleted(ProductForGson bean) {
                 callback.onCompleted(bean);
+                Log.d(TAG, "ProductForGson: "+bean);
             }
 
             @Override

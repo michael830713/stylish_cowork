@@ -48,7 +48,7 @@ public class FavoriteFragment extends Fragment implements FavoriteItemContract.V
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setPaging(FIRST_PAGING);
-        mPresenter.findFavorite();
+//        mPresenter.findFavorite();
         mFavoriteItemAdapter = new FavoriteItemAdapter(mPresenter);
     }
 

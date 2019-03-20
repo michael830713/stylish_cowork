@@ -60,7 +60,7 @@ public interface MainContract {
 
         CatalogItemFragment findAccessoriesView();
 
-        FavoriteFragment findFavoriteView();
+        void findFavoriteView();
 
         void switchProfileUiInitiative();
 

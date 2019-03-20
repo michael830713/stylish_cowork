@@ -76,7 +76,7 @@ public class StylishApiHelper {
     private static final String PRODUCTS_WOMEN_PATH = PRODUCTS_PATH + WOMEN_PATH;
     private static final String PRODUCTS_MEN_PATH = PRODUCTS_PATH + MEN_PATH;
     private static final String PRODUCTS_ACCESSORIES_PATH = PRODUCTS_PATH + ACCESSORIES_PATH;
-    private static final String PRODUCTS_DETAIL_PATH = PRODUCTS_PATH + "details?id=";
+    private static final String PRODUCTS_DETAIL_PATH = PRODUCTS_PATH +"/"+ "details?id=";
     private static final String PAGING_PATH = "?paging=";
     private static final String ID_PATH = "?id=";
     private static final String USER_PATH = "/user";
@@ -315,7 +315,7 @@ public class StylishApiHelper {
 
     public static String getFavoriteItem(@NonNull String id) throws IOException, StylishException {
 
-        String url = GET_PRODUCTS_URL ;
+        String url = GET_PRODUCTS_URL+id ;
         try {
             String results = new StylishClient()
                     .get(url, null);

@@ -79,7 +79,7 @@ public class MainMvpController {
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
-            HOTS, CATALOG, CART, PROFILE, DETAIL, PAYMENT
+            HOTS, CATALOG, CART, PROFILE, DETAIL, PAYMENT, FAVORITE
     })
     public @interface FragmentType {
     }
@@ -90,6 +90,7 @@ public class MainMvpController {
     static final String PROFILE = "PROFILE";
     static final String DETAIL = "DETAIL";
     static final String PAYMENT = "PAYMENT";
+    static final String FAVORITE = "FAVORITE";
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
@@ -211,6 +212,20 @@ public class MainMvpController {
     }
 
     /**
+     * Detail View
+     */
+    void findOrCreateFavoriteView() {
+
+        FavoriteFragment favoriteFragment = findOrCreateFavoriteFragment();
+
+        mFavoriteItemPresenter = new FavoriteItemPresenter(StylishRepository.getInstance(
+                StylishRemoteDataSource.getInstance(),
+                StylishLocalDataSource.getInstance()), favoriteFragment);
+        mMainPresenter.setFavoritePresenter(mFavoriteItemPresenter);
+        favoriteFragment.setPresenter(mMainPresenter);
+    }
+
+    /**
      * Add2Cart View
      */
     void findOrCreateAdd2CartView(Product product) {
@@ -255,18 +270,14 @@ public class MainMvpController {
         }
     }
 
-    FavoriteFragment findOrCreateFavoriteView() {
+    FavoriteFragment findOrCreateFavoriteFragment() {
 
-        FavoriteFragment fragment = FavoriteFragment.newInstance();
+        FavoriteFragment favoriteFragment = FavoriteFragment.newInstance();
 
-        mFavoriteItemPresenter = new FavoriteItemPresenter(StylishRepository.getInstance(
-                StylishRemoteDataSource.getInstance(),
-                StylishLocalDataSource.getInstance()), fragment);
-        fragment.setPresenter(mMainPresenter);
+        ActivityUtils.addFragmentByTag(
+                getFragmentManager(), favoriteFragment, FAVORITE);
 
-        mMainPresenter.setFavoritePresenter(mFavoriteItemPresenter);
-
-        return fragment;
+        return favoriteFragment;
     }
 
     /**

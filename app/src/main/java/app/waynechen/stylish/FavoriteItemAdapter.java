@@ -32,7 +32,6 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        mPresenter.findFavorite();
 
         if (viewType == TYPE_GRID) {
 

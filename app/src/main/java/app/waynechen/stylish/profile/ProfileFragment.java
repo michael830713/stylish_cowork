@@ -103,26 +103,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
             getActivity().startActivityForResult(gallery, PICK_IMAGE);
         });
         mImageButtonFavorite.setOnClickListener(v -> {
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-            FavoriteFragment fragment = FavoriteFragment.newInstance();
-
-            for (Fragment element : getFragmentManager().getFragments()) {
-                if (!element.isHidden()) {
-                    transaction.hide(element);
-                    transaction.addToBackStack(null);
-                    break;
-                }
-            }
-
-            if (fragment.isAdded()) {
-                transaction.show(fragment);
-            } else {
-                transaction.add(R.id.layout_main_container, fragment);
-            }
-
-            transaction.commit();
+            mPresenter.openFavorite();
         });
     }
 

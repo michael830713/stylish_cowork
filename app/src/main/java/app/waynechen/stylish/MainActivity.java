@@ -436,8 +436,8 @@ public class MainActivity extends BaseActivivty implements MainContract.View,
     }
 
     @Override
-    public FavoriteFragment findFavoriteView() {
-        return mMainMvpController.findOrCreateFavoriteView();
+    public void findFavoriteView() {
+         mMainMvpController.findOrCreateFavoriteView();
     }
 
     @Override

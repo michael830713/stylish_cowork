@@ -20,6 +20,8 @@ import app.waynechen.stylish.util.Constants;
  */
 public class GetFavoritesItemTask extends AsyncTask<Void, Void, String> {
 
+    private static final String TAG="GetFavoritesItemTask";
+
     private String mErrorMessage;
     private String mId;
     private StylishDataSource.FavoriteItemCallback mCallback;
@@ -63,8 +65,8 @@ public class GetFavoritesItemTask extends AsyncTask<Void, Void, String> {
             Gson gson = new Gson();
 
             ProductForGson favorite = gson.fromJson(bean, ProductForGson.class);
-
-
+            String note = favorite.getData().getNote();
+//            Log.d(TAG, "Note: "+note);
             mCallback.onCompleted(favorite);
         } else if (!"".equals(mErrorMessage)) {
 

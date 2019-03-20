@@ -14,11 +14,14 @@ import app.waynechen.stylish.data.Favorite;
 import app.waynechen.stylish.data.source.StylishDataSource;
 import app.waynechen.stylish.util.Constants;
 
+import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
+
 /**
  * Created by Wayne Chen on Feb. 2019.
  */
 public class GetFavoritesListTask extends AsyncTask<Void, Void, String> {
 
+    private static final String TAG = "GetFavoritesListTask";
     private String mErrorMessage;
     private String mToken;
     private StylishDataSource.FavoriteListCallback mCallback;
@@ -62,7 +65,7 @@ public class GetFavoritesListTask extends AsyncTask<Void, Void, String> {
             Gson gson = new Gson();
 
             Favorite favorite = gson.fromJson(bean, Favorite.class);
-
+            Log.d(TAG, "Favorite: " + favorite);
 
             mCallback.onCompleted(favorite);
         } else if (!"".equals(mErrorMessage)) {

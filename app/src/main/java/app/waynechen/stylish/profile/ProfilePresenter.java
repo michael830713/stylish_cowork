@@ -72,4 +72,9 @@ public class ProfilePresenter implements ProfileContract.Presenter {
         mProfileView.showImagePickedFromGallery(token,imageUri, realPath);
 
     }
+
+    @Override
+    public void openFavorite() {
+
+    }
 }

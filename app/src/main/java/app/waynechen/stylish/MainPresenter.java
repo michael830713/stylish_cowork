@@ -357,11 +357,6 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
         return mMainView.findAccessoriesView();
     }
 
-    @Override
-    public FavoriteFragment findFavorite() {
-        return mMainView.findFavoriteView();
-    }
-
     /* ------------------------------------------------------------------------------------------ */
     /* General */
 
@@ -673,6 +668,11 @@ public class MainPresenter implements MainContract.Presenter, HotsContract.Prese
     @Override
     public void setGalleryImagePicked(Uri imageUri, String realPath) {
 
+    }
+
+    @Override
+    public void openFavorite() {
+        mMainView.findFavoriteView();
     }
 
     @Override

@@ -54,5 +54,7 @@ public interface ProfileContract {
 
         void setGalleryImagePicked(Uri imageUri,String realPath);
 
+        void openFavorite();
+
     }
 }
