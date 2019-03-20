@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubePlayerView;
+
 import app.waynechen.stylish.R;
 import app.waynechen.stylish.data.Product;
 
@@ -22,10 +26,11 @@ public class DetailFragment extends Fragment implements DetailContract.View {
 
     private DetailContract.Presenter mPresenter;
     private DetailAdapter mDetailAdapter;
-
+    private YouTubePlayerView mYoutubePlayerView;
     private Product mProduct;
 
-    public DetailFragment() {}
+    public DetailFragment() {
+    }
 
     public static DetailFragment newInstance() {
         return new DetailFragment();

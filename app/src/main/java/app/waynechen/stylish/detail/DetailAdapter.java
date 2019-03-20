@@ -9,12 +9,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+
 import app.waynechen.stylish.R;
 import app.waynechen.stylish.Stylish;
+import app.waynechen.stylish.YoutubeConfig;
 import app.waynechen.stylish.data.Product;
 import app.waynechen.stylish.data.Variant;
 import app.waynechen.stylish.data.source.StylishDataSource;
@@ -164,6 +171,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
             // Set note
             ((DetailViewHolder) holder).getTextNote().setText(mProduct.getNote());
 
+            ((DetailViewHolder) holder).getmYoutubePlayer().loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/eWEF1Zrmdow\" frameborder=\"0\" allowfullscreen></iframe>","text/html","utf-8");
         }
     }
 
@@ -194,6 +202,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
         private TextView mTextNote;
         private ImageButton mButtonClose;
         private ImageView mButtonFavorite;
+        private WebView mYoutubePlayer;
 
         public DetailViewHolder(View itemView) {
             super(itemView);
@@ -213,46 +222,46 @@ public class DetailAdapter extends RecyclerView.Adapter {
             mTextNote = itemView.findViewById(R.id.text_detail_note);
             mButtonClose = itemView.findViewById(R.id.button_detail_close);
             mButtonFavorite = itemView.findViewById(R.id.imageViewStarred);
-            mButtonFavorite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String token = UserManager.getInstance().getUserToken();
-                    long productId = mProduct.getId();
-                    //use flag to change image
-                    if (!flag) {
+            mYoutubePlayer = itemView.findViewById(R.id.viewYoutube);
+            mYoutubePlayer.getSettings().setJavaScriptEnabled(true);
+            mYoutubePlayer.setWebChromeClient(new WebChromeClient());
+            mButtonFavorite.setOnClickListener(v -> {
+                String token = UserManager.getInstance().getUserToken();
+                long productId = mProduct.getId();
+                //use flag to change image
+                if (!flag) {
 
-                        new SaveFavoriteTask(token, productId, new StylishDataSource.AvatarChangeCallback() {
-                            @Override
-                            public void onCompleted(String bean) {
-                                Log.d(TAG, "Add to favorite complete: " + bean);
-                            }
+                    new SaveFavoriteTask(token, productId, new StylishDataSource.AvatarChangeCallback() {
+                        @Override
+                        public void onCompleted(String bean) {
+                            Log.d(TAG, "Add to favorite complete: " + bean);
+                        }
 
-                            @Override
-                            public void onError(String errorMessage) {
-                                Log.d(TAG, "Add to favorite Error: " + errorMessage);
-                            }
-                        }).execute();
+                        @Override
+                        public void onError(String errorMessage) {
+                            Log.d(TAG, "Add to favorite Error: " + errorMessage);
+                        }
+                    }).execute();
 
-                        mButtonFavorite.setImageResource(R.drawable.favorite_selected);
-                        flag = true;
-                    } else {
-                        new RemoveFavoriteTask(token, productId, new StylishDataSource.AvatarChangeCallback() {
-                            @Override
-                            public void onCompleted(String bean) {
-                                Log.d(TAG, "Add to favorite complete: " + bean);
+                    mButtonFavorite.setImageResource(R.drawable.favorite_selected);
+                    flag = true;
+                } else {
+                    new RemoveFavoriteTask(token, productId, new StylishDataSource.AvatarChangeCallback() {
+                        @Override
+                        public void onCompleted(String bean) {
+                            Log.d(TAG, "Add to favorite complete: " + bean);
 
-                            }
+                        }
 
-                            @Override
-                            public void onError(String errorMessage) {
-                                Log.d(TAG, "Add to favorite Error: " + errorMessage);
+                        @Override
+                        public void onError(String errorMessage) {
+                            Log.d(TAG, "Add to favorite Error: " + errorMessage);
 
-                            }
-                        }).execute();
+                        }
+                    }).execute();
 
-                        mButtonFavorite.setImageResource(R.drawable.favorite);
-                        flag = false;
-                    }
+                    mButtonFavorite.setImageResource(R.drawable.favorite);
+                    flag = false;
                 }
             });
 
@@ -317,6 +326,9 @@ public class DetailAdapter extends RecyclerView.Adapter {
             return mTextNote;
         }
 
+        public WebView getmYoutubePlayer() {
+            return mYoutubePlayer;
+        }
     }
 
     public void updateData(Product product) {

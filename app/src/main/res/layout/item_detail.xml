@@ -319,8 +319,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view_detail_note_separation"
         app:layout_constraintTop_toTopOf="@+id/text_detail_note_title" />
@@ -344,5 +342,16 @@
         app:layout_constraintEnd_toEndOf="@+id/text_detail_price"
         app:layout_constraintTop_toTopOf="@+id/text_detail_id"
         app:srcCompat="@drawable/star_selecter" />
+
+    <WebView
+        android:id="@+id/viewYoutube"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_detail_note" />
 
 </android.support.constraint.ConstraintLayout>

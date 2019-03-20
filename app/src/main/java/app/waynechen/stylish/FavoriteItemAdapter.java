@@ -18,7 +18,7 @@ import app.waynechen.stylish.util.ImageManager;
  */
 public class FavoriteItemAdapter extends RecyclerView.Adapter {
 
-    private static final String TAG="FavoriteItemAdapter";
+    private static final String TAG = "FavoriteItemAdapter";
 
     private static final int TYPE_LOADING = 0;
     private static final int TYPE_GRID = 0x01;
@@ -68,19 +68,9 @@ public class FavoriteItemAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onError(String errorMessage) {
-                Log.d(TAG, "onError: "+errorMessage);
+                Log.d(TAG, "onError: " + errorMessage);
             }
         }).execute();
-
-        // Set main image
-//        ImageManager.getInstance().setImageByUrl(holder.getImageMain(), product.getData().getMain_image());
-
-        // Set title
-//        holder.getTextTitle().setText(product.getData().getTitle());
-
-        // Set description
-//        holder.getTextPrice().setText(
-//                Stylish.getAppContext().getString(R.string.nt_dollars_, product.getData().getPrice()));
 
     }
 

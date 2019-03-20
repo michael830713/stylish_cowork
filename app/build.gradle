@@ -29,7 +29,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-
     implementation 'com.google.guava:guava:24.1-jre'
     implementation 'com.squareup.okhttp3:okhttp:3.13.1'
     implementation('com.facebook.android:facebook-login:4.40.0') {
@@ -44,4 +43,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 }

@@ -58,6 +58,8 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class MainMvpController {
 
+    private static final String TAG = "MainMvpController";
+
     private final FragmentActivity mActivity;
     private MainPresenter mMainPresenter;
 
