@@ -63,11 +63,16 @@ public class GetVideoLinkTask extends AsyncTask<Void, Void, String> {
 
         if (bean != null) {
             Gson gson = new Gson();
-            Log.d(TAG, "onPostExecute: "+bean);
+            Log.d(TAG, "onPostExecute: " + bean);
             VideoLink videoLink = gson.fromJson(bean, VideoLink.class);
             String[] video = videoLink.getData();
 //            Log.d(TAG, "Note: "+note);
-            mCallback.onCompleted(video[0]);
+            if (video[0] != null) {
+                mCallback.onCompleted(video[0]);
+            }else {
+                mCallback.onError("no video");
+            }
+
         } else if (!"".equals(mErrorMessage)) {
 
             mCallback.onError(mErrorMessage);
