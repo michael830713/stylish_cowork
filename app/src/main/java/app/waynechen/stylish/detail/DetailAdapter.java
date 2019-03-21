@@ -19,6 +19,9 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import app.waynechen.stylish.R;
 import app.waynechen.stylish.Stylish;
 import app.waynechen.stylish.YoutubeConfig;
@@ -171,7 +174,36 @@ public class DetailAdapter extends RecyclerView.Adapter {
             // Set note
             ((DetailViewHolder) holder).getTextNote().setText(mProduct.getNote());
 
-            ((DetailViewHolder) holder).getmYoutubePlayer().loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/eWEF1Zrmdow\" frameborder=\"0\" allowfullscreen></iframe>","text/html","utf-8");
+            String videoId = getVideoId("https://www.youtube.com/watch?v=rULLAwLT3oA");
+            String embedUrl = ("https://www.youtube.com/embed/" + videoId);
+
+            String data = "<iframe" +
+                    " width=\"100%\" " +
+                    "height=\"100%\"" +
+                    " src=\"" +
+                    embedUrl + "\"" +
+                    " frameborder=\"0\"" +
+                    " allow=\"accelerometer;" +
+                    " autoplay;" +
+                    " encrypted-media;" +
+                    " gyroscope;" +
+                    " picture-in-picture\"" +
+                    " allowfullscreen></iframe>";
+
+            ((DetailViewHolder) holder).getmYoutubePlayer().loadData(data, "text/html", "utf-8");
+
+        }
+    }
+
+    String getVideoId(String url) {
+        String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*";
+
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(url); //url is youtube url for which you want to extract the id.
+        if (matcher.find()) {
+            return matcher.group();
+        } else {
+            return null;
         }
     }
 
